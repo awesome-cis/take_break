@@ -1,5 +1,7 @@
+import "./styles.scss";
+
 function Home() {
-  return <div>Welcome to Next.js!</div>;
+  return <div className="root">Welcome to Next.js!</div>;
 }
 
 export default Home;
