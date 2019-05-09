@@ -13,9 +13,15 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@storybook/react": "^5.0.11",
+    "@types/next": "^8.0.5",
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/storybook__react": "^4.0.1",
+    "@zeit/next-typescript": "^1.1.1",
     "babel-loader": "^8.0.5",
     "next": "^8.1.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "typescript": "^3.4.5"
   }
 }
