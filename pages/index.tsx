@@ -1,8 +1,11 @@
-const Index = () => {
+import * as React from "react";
+import "./styles.scss";
+
+const Index: React.FC = () => {
   const helloText: string = "Hello Next.js, Hello Typescript";
   return (
     <div>
-      <p>{helloText}</p>
+      <p className={"root"}>{helloText}</p>
     </div>
   );
 };
