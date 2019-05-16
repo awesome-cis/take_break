@@ -13,6 +13,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@storybook/addon-knobs": "^5.0.11",
+    "@storybook/addon-viewport": "^5.0.11",
     "@storybook/react": "^5.0.11",
     "@types/next": "^8.0.5",
     "@types/react": "^16.8.17",
