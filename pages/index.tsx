@@ -1,11 +1,12 @@
-import * as React from "react";
-import "./styles.scss";
+import './styles.scss';
+
+import * as React from 'react';
 
 const Index: React.FC = () => {
-  const helloText: string = "Hello Next.js, Hello Typescript";
+  const helloText: string = 'Hello Next.js, Hello Typescript';
   return (
     <div>
-      <p className={"root"}>{helloText}</p>
+      <p className={'root'}>{helloText}</p>
     </div>
   );
 };
