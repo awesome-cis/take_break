@@ -15,6 +15,6 @@ app.prepare().then(() => {
 
   server.listen(port, (err: Express.Errback) => {
     if (err) throw err;
-    console.log(`> Ready on http://locaalhost:${port}`);
+    console.log(`> Ready on http://localhost:${port}`);
   });
 });
