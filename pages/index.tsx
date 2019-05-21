@@ -1,28 +1,22 @@
-import './styles.scss';
+import 'styles/index.scss';
+import Login from 'components/Login';
+import { Typography, Row, Col } from 'antd';
 
-import Head from 'next/Head';
-import { Button } from 'antd';
+const { Title } = Typography;
 
 const Index: React.FC = () => {
-  const helloText: string = 'Hello Next.js, Hello Typescript';
   return (
-    <>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.min.css"
-        />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.min.js" />
-      </Head>
-      <div>
-        <p className={'root'}>{helloText}</p>
-        <Button type="primary">Primary</Button>
-        <Button>Default</Button>
-        <Button type="dashed">Dashed</Button>
-        <Button type="danger">Danger</Button>
-        <Button type="link">Link</Button>
-      </div>
-    </>
+    <Row
+      type="flex"
+      align={'middle'}
+      justify={'center'}
+      className={'container'}
+    >
+      <Col md={{ span: 10 }} xs={{ span: 16 }}>
+        <Title>Take Break</Title>
+        <Login />
+      </Col>
+    </Row>
   );
 };
 
