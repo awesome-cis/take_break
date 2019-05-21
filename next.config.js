@@ -9,6 +9,7 @@ module.exports = withTypescript(
         __dirname,
         'src/components'
       );
+      config.resolve.alias['styles'] = path.join(__dirname, 'src/styles');
       return config;
     }
   })
