@@ -3,7 +3,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        loader: "babel-loader"
+        loader: 'babel-loader'
       }
     ]
   }
