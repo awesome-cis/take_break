@@ -9,6 +9,7 @@ const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 
 const app = express();
+const PORT = 8080;
 
 const db = require('./database/db');
 require('./models/user');
@@ -35,4 +36,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
-module.exports = app;
+app.listen(PORT, () => {
+  console.log('Example app listening on port ' + PORT + '!');
+});
