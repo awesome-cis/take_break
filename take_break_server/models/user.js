@@ -1,8 +1,13 @@
 const db = require('../database/db');
+const bcrypt = require('bcrypt');
 
 const Model = db.Sequelize.Model;
 
-class User extends Model {}
+class User extends Model {
+  validatePassword(password) {
+    return bcrypt.compareSync(password, this.password);
+  }
+}
 
 User.init(
   {

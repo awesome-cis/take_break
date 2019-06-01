@@ -1,48 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const passport = require('../passport');
+const PasswordUtil = require('../lib/PasswordUtil');
 
-router.post('/login', async (req, res, next) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({
-      where: {
-        email: email
-      }
-    });
-
-    if (!user) {
-      throw Error('User not exists');
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
+    if (err) {
+      console.error(err);
+      return next(err);
     }
 
-    await bcrypt.compare(password, user.password, (err, ok) => {
-      if (!ok) {
-        res.status(400).send({
-          code: -1,
-          message: 'Cannot find your information',
-          uiMessage: 'Cannot find your information'
-        });
-      } else {
-        res.send({
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email
-          },
-          accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
-        });
-      }
+    if (!user) {
+      return res.status(401).send({
+        code: 401001,
+        message: info.message
+      });
+    }
+
+    res.send({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      },
+      accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
     });
-  } catch (err) {
-    res.status(400).send({
-      code: -1,
-      message: err,
-      uiMessage: err
-    });
-  }
+  })(req, res, next);
 });
 
 router.post('/register', async (req, res, next) => {
@@ -63,10 +48,8 @@ router.post('/register', async (req, res, next) => {
     });
 
     if (!user) {
-      bcrypt.hash(password, 12, async (err, hash) => {
-        if (err) {
-          throw Error('Password generation failed');
-        }
+      try {
+        const hash = new PasswordUtil(password).encrypt();
 
         user = await User.create({
           name: name,
@@ -82,7 +65,9 @@ router.post('/register', async (req, res, next) => {
           },
           accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
         });
-      });
+      } catch (err) {
+        throw Error('Password generation failed');
+      }
     } else {
       res.status(400).send({
         code: 1,
