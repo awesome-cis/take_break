@@ -20,6 +20,12 @@ User.init(
     },
     password: {
       type: db.Sequelize.STRING
+    },
+    provider: {
+      type: db.Sequelize.STRING
+    },
+    oAuthId: {
+      type: db.Sequelize.STRING
     }
   },
   {

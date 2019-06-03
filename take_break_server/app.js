@@ -9,6 +9,7 @@ const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const passport = require('./passport');
 
+const cors = require('cors');
 const app = express();
 const PORT = 8080;
 
@@ -19,7 +20,9 @@ db.sequelize
   .authenticate()
   .then(() => {
     db.sequelize
-      .sync()
+      .sync({
+        force: true
+      })
       .then(() => console.log('Database Synced!'))
       .catch(err => console.log(err));
   })
@@ -27,6 +30,7 @@ db.sequelize
     console.log(err);
   });
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
