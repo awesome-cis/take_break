@@ -6,6 +6,31 @@ const passport = require('../passport');
 const PasswordUtil = require('../lib/PasswordUtil');
 const superagent = require('superagent');
 
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+
+    if (!user) {
+      return res.status(401).send({
+        code: 401001,
+        message: info.message
+      });
+    }
+
+    res.send({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      },
+      accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
+    });
+  })(req, res, next);
+});
+
 router.post('/github', (req, res, next) => {
   const code = req.body.code;
 
@@ -35,7 +60,6 @@ router.post('/github', (req, res, next) => {
         .end(async (err, userRes) => {
           // 3. 회원가입 또는 로그인 로직 진행 후, 클라이언트 응답
           const body = userRes.body;
-          const login = body.login;
           const id = body.id;
           const email = body.email;
           const name = body.name;
@@ -48,7 +72,7 @@ router.post('/github', (req, res, next) => {
           });
 
           if (!user) {
-            // 회원가입 수행
+            // 해당하는 사용자 없는 경우, 회원가입 수행
             user = await User.create({
               name: name,
               email: email,
@@ -58,6 +82,7 @@ router.post('/github', (req, res, next) => {
             });
           }
 
+          // 응답
           res.send({
             user: {
               id: user.id,
@@ -70,33 +95,9 @@ router.post('/github', (req, res, next) => {
     });
 });
 
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
-    if (err) {
-      console.error(err);
-      return next(err);
-    }
-
-    if (!user) {
-      return res.status(401).send({
-        code: 401001,
-        message: info.message
-      });
-    }
-
-    res.send({
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email
-      },
-      accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
-    });
-  })(req, res, next);
-});
-
 router.post('/register', async (req, res, next) => {
   const { name, email, password } = req.body;
+
   if (!email || !name || !password) {
     return res.status(400).send({
       code: -1,
