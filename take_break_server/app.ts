@@ -19,14 +19,17 @@ const PORT = 8080;
 sequelize
   .authenticate()
   .then(() => {
-    sequelize
-      .sync({
-        force: true
-      })
-      .then(() => console.log('Database Synced!'))
-      .catch((err: any) => console.log(err));
+    console.log('===== OK2 =====');
+
+    // sequelize
+    //   .sync({
+    //     force: true
+    //   })
+    //   .then(() => console.log('Database Synced!'))
+    //   .catch((err: any) => console.log(err));
   })
   .catch((err: any) => {
+    console.log('===== ERR =====');
     console.log(err);
   });
 
@@ -42,8 +45,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
-app.listen(PORT, () => {
-  console.log('Example app listening on port ' + PORT + '!');
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log('Example app listening on port ' + PORT + '!');
+  });
+}
 
 export default app;
