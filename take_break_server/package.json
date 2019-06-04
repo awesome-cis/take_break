@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon app",
     "build": "webpack",
-    "start": "webpack --watch"
+    "dev": "webpack --watch",
+    "start": "node dist/bundle.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",

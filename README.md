@@ -34,5 +34,6 @@
 
   ```
   $ cd take_break_server
-  $ npm run start
+  $ npm install
+  $ npm run dev
   ```
