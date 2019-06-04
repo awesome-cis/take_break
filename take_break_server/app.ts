@@ -45,3 +45,5 @@ app.use('/auth', authRouter);
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT + '!');
 });
+
+export default app;
