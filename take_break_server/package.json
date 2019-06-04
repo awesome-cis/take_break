@@ -5,7 +5,8 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack --watch",
-    "start": "node dist/bundle.js"
+    "start": "node dist/bundle.js",
+    "test": "jest --watch"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",

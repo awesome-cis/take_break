@@ -6,32 +6,19 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as path from 'path';
 
-import { sequelize } from './database/db';
 import passport from './passport';
 import indexRouter from './routes';
 import usersRouter from './routes/users';
 
 import authRouter from './routes/auth';
+import prepareDatabase from './prepareDatabase';
 const cors = require('cors');
 const app = express();
 const PORT = 8080;
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('===== OK2 =====');
-
-    // sequelize
-    //   .sync({
-    //     force: true
-    //   })
-    //   .then(() => console.log('Database Synced!'))
-    //   .catch((err: any) => console.log(err));
-  })
-  .catch((err: any) => {
-    console.log('===== ERR =====');
-    console.log(err);
-  });
+if (process.env.NODE_ENV !== 'test') {
+  prepareDatabase();
+}
 
 app.use(cors());
 app.use(logger('dev'));
