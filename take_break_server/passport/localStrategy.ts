@@ -1,16 +1,20 @@
-const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/user');
+import { PassportStatic } from 'passport';
+import * as passportLocal from 'passport-local';
 
-module.exports = passport => {
+import User from '../models/user';
+
+const LocalStrategy = passportLocal.Strategy;
+
+export default (passport: PassportStatic) => {
   passport.use(
     new LocalStrategy(
       {
         usernameField: 'email',
         passwordField: 'password'
       },
-      async (email, password, done) => {
+      async (email: string, password: string, done: any) => {
         try {
-          const user = await User.findOne({ where: { email: email } });
+          const user = await User.User.findOne({ where: { email: email } });
 
           if (!user) {
             return done(null, false, { message: 'Incorrect username.' });

@@ -1,32 +1,32 @@
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-require('dotenv').config();
+import './init';
+import './models/user';
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
-const passport = require('./passport');
+import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
+import * as logger from 'morgan';
+import * as path from 'path';
 
+import { sequelize } from './database/db';
+import passport from './passport';
+import indexRouter from './routes';
+import usersRouter from './routes/users';
+
+import authRouter from './routes/auth';
 const cors = require('cors');
 const app = express();
 const PORT = 8080;
 
-const db = require('./database/db');
-require('./models/user');
-
-db.sequelize
+sequelize
   .authenticate()
   .then(() => {
-    db.sequelize
+    sequelize
       .sync({
         force: true
       })
       .then(() => console.log('Database Synced!'))
-      .catch(err => console.log(err));
+      .catch((err: any) => console.log(err));
   })
-  .catch(err => {
+  .catch((err: any) => {
     console.log(err);
   });
 

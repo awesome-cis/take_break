@@ -1,37 +1,43 @@
-const express = require('express');
+import * as express from 'express';
+import * as jwt from 'jsonwebtoken';
+import superagent from 'superagent';
+import * as bcrypt from 'bcrypt';
+
+import User from '../models/user';
+import passport from '../passport';
+
 const router = express.Router();
-const User = require('../models/user');
-const jwt = require('jsonwebtoken');
-const passport = require('../passport');
-const PasswordUtil = require('../lib/PasswordUtil');
-const superagent = require('superagent');
 
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
-    if (err) {
-      console.error(err);
-      return next(err);
-    }
+  passport.authenticate(
+    'local',
+    { session: false },
+    (err: any, user: any, info: any) => {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
 
-    if (!user) {
-      return res.status(401).send({
-        code: 401001,
-        message: info.message
+      if (!user) {
+        return res.status(401).send({
+          code: 401001,
+          message: info.message
+        });
+      }
+
+      res.send({
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        },
+        accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET as string)
       });
     }
-
-    res.send({
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email
-      },
-      accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
-    });
-  })(req, res, next);
+  )(req, res, next);
 });
 
-router.post('/github', (req, res, next) => {
+router.post('/github', (req, res, _next) => {
   const code = req.body.code;
 
   if (!code) {
@@ -51,20 +57,20 @@ router.post('/github', (req, res, next) => {
     })
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
-    .end((err, oAuthRes) => {
+    .end((_err, oAuthRes) => {
       const accessToken = oAuthRes.body.access_token;
       // 2. 발급된 access_token 이용하여 사용자 정보 fetch
       superagent
         .get('https://api.github.com/user')
         .set('Authorization', `token ${accessToken}`)
-        .end(async (err, userRes) => {
+        .end(async (_err, userRes) => {
           // 3. 회원가입 또는 로그인 로직 진행 후, 클라이언트 응답
           const body = userRes.body;
           const id = body.id;
           const email = body.email;
           const name = body.name;
 
-          let user = await User.findOne({
+          let user = await User.User.findOne({
             where: {
               provider: 'github',
               oAuthId: id
@@ -73,7 +79,7 @@ router.post('/github', (req, res, next) => {
 
           if (!user) {
             // 해당하는 사용자 없는 경우, 회원가입 수행
-            user = await User.create({
+            user = await User.User.create({
               name: name,
               email: email,
               password: null,
@@ -89,13 +95,14 @@ router.post('/github', (req, res, next) => {
               name: user.name,
               email: user.email
             },
-            accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
+            accessToken: jwt.sign({ id: user.id }, process.env
+              .JWT_SECRET as string)
           });
         });
     });
 });
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', async (req, res, _next) => {
   const { name, email, password } = req.body;
 
   if (!email || !name || !password) {
@@ -107,7 +114,7 @@ router.post('/register', async (req, res, next) => {
 
   try {
     let user;
-    user = await User.findOne({
+    user = await User.User.findOne({
       where: {
         email: email
       }
@@ -115,9 +122,9 @@ router.post('/register', async (req, res, next) => {
 
     if (!user) {
       try {
-        const hash = new PasswordUtil(password).encrypt();
+        const hash = bcrypt.hashSync(password, 12);
 
-        user = await User.create({
+        user = await User.User.create({
           name: name,
           email: email,
           password: hash
@@ -129,9 +136,11 @@ router.post('/register', async (req, res, next) => {
             name: user.name,
             email: user.email
           },
-          accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET)
+          accessToken: jwt.sign({ id: user.id }, process.env
+            .JWT_SECRET as string)
         });
       } catch (err) {
+        console.error(err);
         throw Error('Password generation failed');
       }
     } else {
@@ -151,4 +160,4 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;
