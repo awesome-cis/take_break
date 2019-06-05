@@ -15,11 +15,11 @@ function App() {
         </ul>
       </nav>
       <section className="App__contents">
-        <Route path="/auth/github" exact={true} component={AuthGithub} />
+        <Route path="/auth/github" component={AuthGithub} exact />
         <Route
           path="/auth/github/callback"
-          exact={true}
           component={AuthGithubCallback}
+          exact
         />
       </section>
     </div>
