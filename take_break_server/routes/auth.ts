@@ -47,7 +47,6 @@ router.post('/github', (req, res, _next) => {
   }
 
   try {
-    console.log('==============1');
     // 1. GitHub로 부터 access_token 발급
     superagent
       .post('https://github.com/login/oauth/access_token')
@@ -59,8 +58,6 @@ router.post('/github', (req, res, _next) => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .end((_err, oAuthRes) => {
-        console.log('==============2');
-
         const accessToken = oAuthRes.body.access_token;
         // 2. 발급된 access_token 이용하여 사용자 정보 fetch
         superagent

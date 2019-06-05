@@ -1,9 +1,7 @@
 import { PassportStatic } from 'passport';
-import * as passportLocal from 'passport-local';
+import { Strategy as LocalStrategy } from 'passport-local';
 
 import User from '../models/user';
-
-const LocalStrategy = passportLocal.Strategy;
 
 export default (passport: PassportStatic) => {
   passport.use(

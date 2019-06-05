@@ -12,7 +12,6 @@ const prepareDatabase = () => {
         .then(() => resolve('Database Synced!'))
         .catch((err: any) => reject(err));
     } catch (err) {
-      console.log('===== ERR =====');
       console.log(err);
     }
   });
