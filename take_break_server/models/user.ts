@@ -3,10 +3,29 @@ import * as bcrypt from 'bcrypt';
 import { Model, DataTypes } from 'sequelize';
 
 class User extends Model {
-  password: string = '';
+  password?: string;
+
+  static register(
+    name: string,
+    email: string,
+    password: string
+  ): Promise<{
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+  }> {
+    const hash = bcrypt.hashSync(password, 12);
+
+    return User.create({
+      name: name,
+      email: email,
+      password: hash
+    });
+  }
 
   validatePassword(password: string) {
-    return bcrypt.compareSync(password, this.password);
+    return bcrypt.compareSync(password, this.password!);
   }
 }
 

@@ -24,6 +24,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "typeRoots": ["./@types", "./node_modules/@types"]
   }
 }
