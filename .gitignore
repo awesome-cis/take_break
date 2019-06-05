@@ -72,7 +72,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+take_break_server/.env
 
 # next.js build output
 .next
