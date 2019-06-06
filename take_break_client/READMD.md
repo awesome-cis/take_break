@@ -1,23 +1,14 @@
-# TAKE BREAK
+# TAKE BREAK CLIENT
 
 ## How to start
 
 ### Development
 
-- Terminal `#1`
-
-  ```bash
-  $ yarn
-  $ yarn watch-server
-  # server.ts의 변경을 감지하고 컴파일하여 dist/server.js를 업데이트
-  ```
-
-- Terminal `#2`
-
-  ```bash
-  $ yarn dev
-  # server.js의 변경을 감지하고 실제 서버 실행
-  ```
+```bash
+$ npm i
+$ npm run dev
+# server.ts의 변경을 감지하고 컴파일하여 dist/server.js를 업데이트하고 실제 서버 실행
+```
 
 ### VS Code Extentions
 

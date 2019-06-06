@@ -1,16 +1,8 @@
-# TAKE BREAK (쉴래)
+# TAKE BREAK SERVER
 
 ## Getting Started
 
-### Client
-
-```
-$ cd take_break_client
-$ npm i
-$ npm run dev
-```
-
-### Server
+### Development
 
 - create take_break_server/.env
 
