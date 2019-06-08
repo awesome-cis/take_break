@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 
-const idColumnObj = {
+const idColumn = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -9,13 +9,13 @@ const idColumnObj = {
   }
 };
 
-const isDeletedColumnObj = {
+const isDeletedColumn = {
   isDeleted: {
     type: DataTypes.BOOLEAN
   }
 };
 
-const autoDateColumnObj = {
+const autoDateColumn = {
   createdAt: {
     allowNull: false,
     type: new DataTypes.DATE()
@@ -27,7 +27,7 @@ const autoDateColumnObj = {
 };
 
 export const defaultMigrationColumns = {
-  ...idColumnObj,
-  ...isDeletedColumnObj,
-  ...autoDateColumnObj
+  ...idColumn,
+  ...isDeletedColumn,
+  ...autoDateColumn
 };
