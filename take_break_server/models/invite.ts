@@ -21,6 +21,4 @@ Invite.init(
   }
 );
 
-export default {
-  Invite: Invite
-};
+export default Invite;

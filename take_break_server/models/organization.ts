@@ -22,6 +22,4 @@ Organization.init(
   }
 );
 
-export default {
-  Organization
-};
+export default Organization;

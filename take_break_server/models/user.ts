@@ -57,6 +57,4 @@ User.init(
 );
 
 // TODO: User.create 처럼 사용할 수 있게
-export default {
-  User: User
-};
+export default User;
