@@ -49,7 +49,8 @@ User.init(
     }
   },
   {
-    sequelize: (db as any).sequelize
+    sequelize: (db as any).sequelize,
+    modelName: 'users'
   }
 );
 
