@@ -2,6 +2,14 @@
 
 ## Getting Started
 
+### Node version setting
+
+```
+$ nvm use
+// if error: version "10.15.3 -> N/A" is not yet installed.
+// $ nvm install v10.15.3
+```
+
 ### Client
 
 ```
