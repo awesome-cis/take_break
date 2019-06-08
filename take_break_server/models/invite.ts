@@ -1,5 +1,3 @@
-'use strict';
-
 import * as db from '../database/db';
 import { Model, DataTypes } from 'sequelize';
 import { defaultMigrationColumns } from '../config/migrationColumns';
@@ -12,8 +10,7 @@ Invite.init(
     userId: { type: new DataTypes.INTEGER() },
     managedUserId: { type: new DataTypes.INTEGER() },
     organizationId: { type: new DataTypes.INTEGER() },
-    status: { type: new DataTypes.INTEGER() },
-    isDeleted: { type: DataTypes.BOOLEAN }
+    status: { type: new DataTypes.INTEGER() }
   },
   {
     sequelize: db.sequelize,

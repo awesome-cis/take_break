@@ -1,4 +1,3 @@
-'use strict';
 import * as db from '../database/db';
 import { defaultMigrationColumns } from '../config/migrationColumns';
 
