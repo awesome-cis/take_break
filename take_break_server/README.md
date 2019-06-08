@@ -17,6 +17,13 @@
 
   ```
   $ cd take_break_server
+  $ npx sequelize db:drop
+  $ npx sequelize db:create
+  $ npx sequelize db:migrate
+  ```
+
+  ```
+  $ cd take_break_server
   $ npm install
   $ npm run dev
   ```

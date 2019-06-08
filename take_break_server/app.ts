@@ -12,6 +12,13 @@ import usersRouter from './routes/users';
 
 import authRouter from './routes/auth';
 import prepareDatabase from './prepareDatabase';
+
+import './models/invite';
+import './models/organization';
+import './models/user';
+import './models/vacation';
+import './models/vacationCount';
+
 const cors = require('cors');
 const app = express();
 const PORT = 8080;
