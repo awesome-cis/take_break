@@ -23,6 +23,4 @@ Vacation.init(
   }
 );
 
-export default {
-  Vacation
-};
+export default Vacation;
