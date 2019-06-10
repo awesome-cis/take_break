@@ -2,10 +2,18 @@ import * as React from 'react';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 
+interface IFormValue {
+  username: string;
+  email: string;
+  slug: string;
+  password: string;
+  bio: string;
+}
+
 class RegistrationForm extends React.Component<FormComponentProps> {
   handleSubmit = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFieldsAndScroll((err, values: IFormValue) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
