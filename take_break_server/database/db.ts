@@ -31,10 +31,7 @@ const newSequelize = (): Sequelize => {
         SEQUELIZE_OPTIONS
       );
     default:
-      return new Sequelize('', '', '', {
-        host: 'localhost',
-        dialect: 'mysql'
-      });
+      return new Sequelize('', '', '', SEQUELIZE_OPTIONS);
   }
 };
 
