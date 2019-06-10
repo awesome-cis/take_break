@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import UserModel from '../../models/user';
+import { User } from '../../models';
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   // read the token from header or url
@@ -29,7 +29,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   // process the promise
   p.then(async decoded => {
-    const user = await UserModel.User.findOne({
+    const user = await User.findOne({
       where: {
         id: (decoded as any).id
       }
