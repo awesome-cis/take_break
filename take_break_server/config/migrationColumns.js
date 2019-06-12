@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+const { DataTypes } = require('sequelize');
 
 const idColumn = {
   id: {
@@ -26,8 +26,10 @@ const autoDateColumn = {
   }
 };
 
-export const defaultMigrationColumns = {
-  ...idColumn,
-  ...isDeletedColumn,
-  ...autoDateColumn
+exports.modules = {
+  defaultMigrationColumns: {
+    ...idColumn,
+    ...isDeletedColumn,
+    ...autoDateColumn
+  }
 };
