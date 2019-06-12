@@ -26,7 +26,7 @@ const autoDateColumn = {
   }
 };
 
-exports.modules = {
+module.exports = {
   defaultMigrationColumns: {
     ...idColumn,
     ...isDeletedColumn,
