@@ -1,4 +1,4 @@
-const fetch = require('isomorphic-unfetch');
+import fetch from 'isomorphic-unfetch';
 
 // TODO 환경에 따라 API_ENDPOINT 처리 추가
 export const API_ENDPOINT: string = process.env.API_ENDPOINT || '';
