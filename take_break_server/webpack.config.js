@@ -2,7 +2,8 @@ const path = require('path');
 var nodeExternals = require('webpack-node-externals');
 const NodemonPlugin = require('nodemon-webpack-plugin'); // Ding
 
-module.exports = {
+module.exports = env => ({
+  mode: env.NODE_ENV,
   entry: ['babel-polyfill', './app.ts'],
   target: 'node', // in order to ignore built-in modules like path, fs, etc.
   externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
@@ -33,4 +34,4 @@ module.exports = {
   plugins: [
     new NodemonPlugin() // Dong
   ]
-};
+});
