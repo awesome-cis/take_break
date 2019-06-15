@@ -1,3 +1,5 @@
+import './init';
+
 import * as Express from 'express';
 import * as next from 'next';
 
