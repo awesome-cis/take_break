@@ -3,7 +3,12 @@ import * as db from '../database/db';
 import { Model, DataTypes } from 'sequelize';
 import { defaultMigrationColumns } from '../config/migrationColumns';
 
-class Organization extends Model {}
+class Organization extends Model {
+  static TYPE = {
+    INDIVIDUAL: 100,
+    COMPANY: 200
+  };
+}
 
 Organization.init(
   {
