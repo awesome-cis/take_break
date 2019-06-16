@@ -9,9 +9,10 @@ const idColumn = {
   }
 };
 
-const isDeletedColumn = {
-  isDeleted: {
-    type: DataTypes.BOOLEAN
+const autoDeletedColumn = {
+  deletedAt: {
+    allowNull: true,
+    type: new DataTypes.DATE()
   }
 };
 
@@ -28,6 +29,6 @@ const autoDateColumn = {
 
 exports.defaultMigrationColumns = {
   ...idColumn,
-  ...isDeletedColumn,
-  ...autoDateColumn
+  ...autoDateColumn,
+  ...autoDeletedColumn
 };

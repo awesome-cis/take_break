@@ -2,6 +2,7 @@ import * as db from '../database/db';
 
 import { Model, DataTypes } from 'sequelize';
 import { defaultMigrationColumns } from '../config/migrationColumns';
+import { defaultMigrationOptions } from '../config/migrationOptions';
 
 class Organization extends Model {
   static TYPE = {
@@ -22,7 +23,8 @@ Organization.init(
   },
   {
     sequelize: db.sequelize,
-    tableName: 'organizations'
+    tableName: 'organizations',
+    ...defaultMigrationOptions
   }
 );
 
