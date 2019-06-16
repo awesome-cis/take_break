@@ -4,7 +4,10 @@ import { User } from '../../models';
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   // read the token from header or url
-  const token = req.headers['authorization'] || req.query.token;
+  const token =
+    req.headers['authorization'] ||
+    req.headers['Authorization'] ||
+    req.query.token;
 
   // token does not exist
   if (!token) {
