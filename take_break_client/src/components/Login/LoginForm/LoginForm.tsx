@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 const { Title } = Typography;
 
@@ -62,7 +63,10 @@ const LoginForm: React.FC<WrappedFormInternalProps> = props => {
         <div>Naver Login</div>
       </div>
       <div className={'LoginForm__register'}>
-        New to Take Break? <a href="">register now!</a>
+        New to Take Break?{' '}
+        <Link href="/register">
+          <a>register now!</a>
+        </Link>
       </div>
     </>
   );
