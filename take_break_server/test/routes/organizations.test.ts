@@ -67,10 +67,10 @@ describe('DELETE /organizations/:id', () => {
     // Database: before
     const allOrganizationsCountBefore = await Organization.count({
       where: {
-        isDeleted: true
+        deletedAt: null
       }
     });
-    expect(allOrganizationsCountBefore).toBe(0);
+    expect(allOrganizationsCountBefore).toBe(1);
 
     const res = await agent(app)
       .del(`/organizations/${organization.id}`)
@@ -84,10 +84,10 @@ describe('DELETE /organizations/:id', () => {
     // Database: after
     const allOrganizationsCountAfter = await Organization.count({
       where: {
-        isDeleted: true
+        deletedAt: null
       }
     });
-    expect(allOrganizationsCountAfter).toBe(1);
+    expect(allOrganizationsCountAfter).toBe(0);
 
     done();
   });

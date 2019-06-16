@@ -27,9 +27,7 @@ router.delete('/:id', authMiddleware, async (req, res, _next) => {
     });
 
     try {
-      await organization.update({
-        isDeleted: true
-      });
+      await organization.destroy();
     } catch (err) {
       // TODO: error handling;
     }
