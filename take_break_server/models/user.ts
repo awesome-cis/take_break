@@ -2,8 +2,10 @@ import * as db from '../database/db';
 import * as bcrypt from 'bcrypt';
 import { Model, DataTypes } from 'sequelize';
 import { defaultMigrationColumns } from '../config/migrationColumns';
+import * as jwt from 'jsonwebtoken';
 
 class User extends Model {
+  id?: number;
   password?: string;
 
   static register(
@@ -28,6 +30,10 @@ class User extends Model {
   validatePassword(password: string) {
     return bcrypt.compareSync(password, this.password!);
   }
+
+  generateJWT = (): string => {
+    return jwt.sign({ id: this.id }, process.env.JWT_SECRET as string);
+  };
 }
 
 User.init(
