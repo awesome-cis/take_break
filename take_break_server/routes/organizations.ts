@@ -5,13 +5,14 @@ import { Organization } from '../models';
 const router = express.Router();
 
 router.post('/', authMiddleware, async (req, res, _next) => {
+  const { name, description, link, type, isSearchable, isJoinable } = req.body;
   const organization = await Organization.create({
-    name: req.body.name,
-    description: req.body.description,
-    link: req.body.link,
-    type: req.body.type,
-    isSearchable: req.body.isSearchable,
-    isJoinable: req.body.isJoinable
+    name,
+    description,
+    link,
+    type,
+    isSearchable,
+    isJoinable
   });
 
   res.status(201).send(organization.toJSON());
@@ -19,6 +20,7 @@ router.post('/', authMiddleware, async (req, res, _next) => {
 
 router.delete('/:id', authMiddleware, async (req, res, _next) => {
   const id = req.params.id;
+
   try {
     const organization = await Organization.findOne({
       where: { id: Number(id) }
