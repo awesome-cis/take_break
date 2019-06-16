@@ -1,9 +1,8 @@
 import app from '../../app';
 import { agent } from 'supertest';
 import prepareDatabase from '../../prepareDatabase';
-import { Organization, User } from '../../models';
-import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
+import { Organization } from '../../models';
+import factory from '../../factories';
 
 let accessToken: string;
 
@@ -20,14 +19,9 @@ const isJoinable = true;
 beforeEach(async done => {
   await prepareDatabase();
 
-  // TODO: make sample using factory
-  const hash = bcrypt.hashSync('password', 12);
-  const user = await User.create({
-    name: 'name',
-    password: hash,
-    email: 'test@test.com'
-  });
-  accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string);
+  // TODO: strong type def
+  const user: any = await factory.create('user');
+  accessToken = user.generateJWT();
   done();
 });
 
@@ -43,8 +37,6 @@ describe('POST /organizations', () => {
   });
 
   it('creates a Organization', async done => {
-    // TODO: factory pattern 적용
-
     const res = await agent(app)
       .post('/organizations')
       .send({
@@ -79,16 +71,8 @@ describe('POST /organizations', () => {
 
 describe('DELETE /organizations/:id', () => {
   it('mark the record as delete', async done => {
-    // TODO: change as factory function.
-    const organization = await Organization.create({
-      name,
-      description,
-      ['link' as string]: link,
-      type,
-      isSearchable,
-      isJoinable,
-      isDeleted: false
-    });
+    // TODO: strong type def
+    const organization: any = await factory.create('organization');
 
     // Database: before
     const allOrganizationsCountBefore = await Organization.count({
