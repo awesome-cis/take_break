@@ -14,7 +14,7 @@ const newSequelize = (): Sequelize => {
         process.env.TEST_MYSQL_DATABASE!,
         process.env.TEST_MYSQL_USERNAME!,
         process.env.TEST_MYSQL_PASSWORD!,
-        SEQUELIZE_OPTIONS
+        { ...SEQUELIZE_OPTIONS, logging: false }
       );
     case 'development':
       return new Sequelize(

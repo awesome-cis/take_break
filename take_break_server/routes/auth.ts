@@ -106,9 +106,6 @@ router.post('/github', (req, res, _next) => {
 });
 
 router.post('/register', async (req, res, _next) => {
-  // TODO headers.authorization 값 확인 후 console.log 제거
-  console.log('req.headers.authorization', req.headers.authorization);
-
   const { name, email, password } = req.body;
 
   if (!email || !name || !password) {
