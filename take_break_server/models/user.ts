@@ -1,6 +1,7 @@
 import * as db from '../database/db';
 import * as bcrypt from 'bcrypt';
 import { Model, DataTypes } from 'sequelize';
+import { defaultMigrationColumns } from '../config/migrationColumns';
 
 class User extends Model {
   password?: string;
@@ -31,6 +32,7 @@ class User extends Model {
 
 User.init(
   {
+    ...defaultMigrationColumns,
     name: {
       type: new DataTypes.STRING(),
       allowNull: false
@@ -49,12 +51,9 @@ User.init(
     }
   },
   {
-    sequelize: (db as any).sequelize,
-    modelName: 'users'
+    sequelize: db.sequelize,
+    tableName: 'users'
   }
 );
 
-// TODO: User.create 처럼 사용할 수 있게
-export default {
-  User: User
-};
+export default User;

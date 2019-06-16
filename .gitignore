@@ -73,6 +73,7 @@ typings/
 
 # dotenv environment variables file
 take_break_server/.env
+take_break_client/.env
 
 # next.js build output
 .next

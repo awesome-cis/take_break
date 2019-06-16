@@ -1,7 +1,7 @@
 import app from '../../app';
 import { agent } from 'supertest';
 import prepareDatabase from '../../prepareDatabase';
-import UserModel from '../../models/user';
+import { User } from '../../models';
 
 const NAME = 'Test User';
 const EMAIL = 'user@test.com';
@@ -46,7 +46,7 @@ describe('POST /auth/register', () => {
     expect(resUser.name).toBe(NAME);
 
     // Database
-    const allUsersCount = await UserModel.User.count();
+    const allUsersCount = await User.count();
     expect(allUsersCount).toBe(1);
 
     done();
@@ -55,7 +55,7 @@ describe('POST /auth/register', () => {
 
 describe('POST /auth/login', () => {
   beforeEach(done => {
-    UserModel.User.register(NAME, EMAIL, PASSWORD).then(() => {
+    User.register(NAME, EMAIL, PASSWORD).then(() => {
       done();
     });
   });
@@ -83,7 +83,7 @@ describe('POST /auth/login', () => {
     expect(resUser.name).toBe(NAME);
 
     // Database
-    const allUsersCount = await UserModel.User.count();
+    const allUsersCount = await User.count();
     expect(allUsersCount).toBe(1);
 
     done();

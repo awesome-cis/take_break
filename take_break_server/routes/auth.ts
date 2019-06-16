@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import superagent from 'superagent';
 
-import User from '../models/user';
+import { User } from '../models';
 import passport from '../passport';
 
 const router = express.Router();
@@ -70,7 +70,7 @@ router.post('/github', (req, res, _next) => {
             const email = body.email;
             const name = body.name;
 
-            let user = await User.User.findOne({
+            let user = await User.findOne({
               where: {
                 provider: 'github',
                 oAuthId: id
@@ -79,7 +79,7 @@ router.post('/github', (req, res, _next) => {
 
             if (!user) {
               // 해당하는 사용자 없는 경우, 회원가입 수행
-              user = await User.User.create({
+              user = await User.create({
                 name: name,
                 email: email,
                 password: null,
@@ -106,6 +106,9 @@ router.post('/github', (req, res, _next) => {
 });
 
 router.post('/register', async (req, res, _next) => {
+  // TODO headers.authorization 값 확인 후 console.log 제거
+  console.log('req.headers.authorization', req.headers.authorization);
+
   const { name, email, password } = req.body;
 
   if (!email || !name || !password) {
@@ -117,7 +120,7 @@ router.post('/register', async (req, res, _next) => {
 
   try {
     let user;
-    user = await User.User.findOne({
+    user = await User.findOne({
       where: {
         email: email
       }
@@ -125,7 +128,7 @@ router.post('/register', async (req, res, _next) => {
 
     if (!user) {
       try {
-        const user = await User.User.register(name, email, password);
+        const user = await User.register(name, email, password);
 
         res.status(200).send({
           user: {
