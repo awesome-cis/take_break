@@ -9,6 +9,7 @@ import * as path from 'path';
 import passport from './passport';
 import indexRouter from './routes';
 import usersRouter from './routes/users';
+import organizationsRouter from './routes/organizations';
 
 import authRouter from './routes/auth';
 import prepareDatabase from './prepareDatabase';
@@ -34,6 +35,7 @@ app.use(passport.initialize());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/organizations', organizationsRouter);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
