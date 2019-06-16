@@ -28,6 +28,24 @@
   $ npm run dev
   ```
 
+### Test
+
+- reset database
+
+  ```
+  $ NODE_ENV=test npx sequelize db:drop
+  $ NODE_ENV=test npx sequelize db:create
+  $ NODE_ENV=test npx sequelize db:migrate
+  ```
+
+- run test
+
+  ```
+  $ npm run test
+  ```
+
+  기본적으로 watch 모드로 동작합니다. <kbd>a<kbd> 키를 눌려 전체 테스트 수행
+
 ### How to make model
 
 [Migration Docs](http://docs.sequelizejs.com/manual/migrations.html)
