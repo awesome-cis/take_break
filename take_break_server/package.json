@@ -6,7 +6,7 @@
     "build": "webpack",
     "dev": "webpack --watch --env.NODE_ENV=development",
     "start": "node dist/bundle.js",
-    "test": "jest --watch"
+    "test": "jest --watch --runInBand"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
