@@ -25,17 +25,7 @@ beforeEach(async done => {
   done();
 });
 
-afterEach(() => {
-  // TODO: Clear database data.
-  //   - For now, this is ok.
-  //   - Because setup logic drops table. So, it works.
-});
-
 describe('POST /organizations', () => {
-  beforeEach(async done => {
-    done();
-  });
-
   it('creates a Organization', async done => {
     const res = await agent(app)
       .post('/organizations')
