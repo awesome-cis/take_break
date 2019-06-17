@@ -14,8 +14,6 @@ const type = Organization.TYPE.INDIVIDUAL;
 const isSearchable = true;
 const isJoinable = true;
 
-// TODO: Write failing case.
-// TODO: Extract common logic. from `it` context.
 beforeEach(async done => {
   await prepareDatabase();
 
@@ -26,9 +24,47 @@ beforeEach(async done => {
 });
 
 describe('POST /organizations', () => {
+  const path = '/organizations';
+
+  it('fails with invalid accessToken', async done => {
+    const res = await agent(app)
+      .post(path)
+      .send({})
+      .set('Authorization', '')
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(403);
+    done();
+  });
+
+  it('fails when link already exists', async done => {
+    await factory.create('organization', {
+      link: 'DUPLICATED_LINK'
+    });
+
+    const res = await agent(app)
+      .post(path)
+      .send({
+        name,
+        description,
+        ['link' as string]: 'DUPLICATED_LINK',
+        type,
+        isSearchable,
+        isJoinable
+      })
+      .set('Authorization', accessToken)
+      .set('Accept', 'application/json');
+
+    // Status code
+    expect(res.status).toBe(422);
+    expect(res.body.code).toBe(422001);
+
+    done();
+  });
+
   it('creates a Organization', async done => {
     const res = await agent(app)
-      .post('/organizations')
+      .post(path)
       .send({
         name,
         description,
@@ -60,6 +96,17 @@ describe('POST /organizations', () => {
 });
 
 describe('DELETE /organizations/:id', () => {
+  it('fails with invalid accessToken', async done => {
+    const res = await agent(app)
+      .del('/organizations/:id')
+      .send({})
+      .set('Authorization', '')
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(403);
+    done();
+  });
+
   it('mark the record as delete', async done => {
     // TODO: strong type def
     const organization: any = await factory.create('organization');
@@ -88,6 +135,25 @@ describe('DELETE /organizations/:id', () => {
       }
     });
     expect(allOrganizationsCountAfter).toBe(0);
+
+    done();
+  });
+
+  it('errors if already deleted', async done => {
+    const organization: any = await factory.create('organization');
+    organization.destroy();
+
+    const res = await agent(app)
+      .del(`/organizations/${organization.id}`)
+      .set('Authorization', accessToken)
+      .set('Accept', 'application/json');
+
+    // Response
+    expect(res.status).toBe(400);
+
+    // Response Body
+    expect(res.body.code).toBe(400001);
+    expect(res.body.message).toContain('already');
 
     done();
   });
