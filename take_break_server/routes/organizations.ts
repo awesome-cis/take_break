@@ -1,11 +1,23 @@
 import * as express from 'express';
 import authMiddleware from './middlewares/authMiddleware';
 import { Organization } from '../models';
+import APIError from '../lib/errors/APIError';
 
 const router = express.Router();
 
-router.post('/', authMiddleware, async (req, res, _next) => {
+router.post('/', authMiddleware, async (req, res, next) => {
   const { name, description, link, type, isSearchable, isJoinable } = req.body;
+
+  const linkCount: number = await Organization.count({
+    where: {
+      link
+    }
+  });
+
+  if (linkCount > 0) {
+    return next(new APIError(422, 422001, 'provided link is already used'));
+  }
+
   const organization = await Organization.create({
     name,
     description,
@@ -18,24 +30,21 @@ router.post('/', authMiddleware, async (req, res, _next) => {
   res.status(201).send(organization.toJSON());
 });
 
-router.delete('/:id', authMiddleware, async (req, res, _next) => {
-  const id = req.params.id;
+router.delete('/:id', authMiddleware, async (req, res, next) => {
+  const { id } = req.params;
 
-  try {
-    const organization = await Organization.findOne({
-      where: { id: Number(id) }
-    });
+  const organization = await Organization.findOne({
+    where: { id: Number(id) }
+  });
 
-    try {
-      await organization.destroy();
-    } catch (err) {
-      // TODO: error handling;
-    }
-  } catch (err) {
-    // TODO: error handling.
+  if (!organization) {
+    return next(
+      new APIError(400, 400001, 'resource already deleted or not exists')
+    );
   }
 
-  res.status(204).send();
+  await organization.destroy();
+  return res.status(204).send();
 });
 
 export default router;
