@@ -6,16 +6,24 @@ import APIError from '../lib/errors/APIError';
 const router = express.Router();
 
 router.post('/', authMiddleware, async (req, res, next) => {
-  const { name, description, link, type, isSearchable, isJoinable } = req.body;
+  const {
+    name,
+    description,
+    link,
+    type,
+    slug,
+    isSearchable,
+    isJoinable
+  } = req.body;
 
-  const linkCount: number = await Organization.count({
+  const slugCount: number = await Organization.count({
     where: {
-      link
+      slug
     }
   });
 
-  if (linkCount > 0) {
-    return next(new APIError(422, 422001, 'provided link is already used'));
+  if (slugCount > 0) {
+    return next(new APIError(422, 422001, 'provided slug is already used'));
   }
 
   const organization = await Organization.create({
@@ -23,6 +31,7 @@ router.post('/', authMiddleware, async (req, res, next) => {
     description,
     link,
     type,
+    slug,
     isSearchable,
     isJoinable
   });

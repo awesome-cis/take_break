@@ -3,6 +3,7 @@ import { agent } from 'supertest';
 import prepareDatabase from '../../prepareDatabase';
 import { Organization } from '../../models';
 import factory from '../../factories';
+import * as faker from 'faker';
 
 let accessToken: string;
 
@@ -11,6 +12,7 @@ const name = 'Org Name';
 const description = 'Org description';
 const link = 'Org link';
 const type = Organization.TYPE.INDIVIDUAL;
+const slug = faker.lorem.slug();
 const isSearchable = true;
 const isJoinable = true;
 
@@ -38,8 +40,10 @@ describe('POST /organizations', () => {
   });
 
   it('fails when link already exists', async done => {
+    const SLUG = 'DUPLICATED_SLUG';
+
     await factory.create('organization', {
-      link: 'DUPLICATED_LINK'
+      slug: SLUG
     });
 
     const res = await agent(app)
@@ -47,8 +51,9 @@ describe('POST /organizations', () => {
       .send({
         name,
         description,
-        ['link' as string]: 'DUPLICATED_LINK',
+        ['link' as string]: faker.internet.url(),
         type,
+        slug: SLUG,
         isSearchable,
         isJoinable
       })
@@ -70,6 +75,7 @@ describe('POST /organizations', () => {
         description,
         ['link' as string]: link,
         type,
+        slug,
         isSearchable,
         isJoinable
       })
