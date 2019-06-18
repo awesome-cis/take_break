@@ -6,9 +6,7 @@ import {
 } from './types';
 import { createAction } from 'redux-actions';
 
-export const increaseNumber = createAction<IIncreaseNumberActionPayload>(
-  INCREASE_NUMBER
-);
-export const decreaseNumber = createAction<IDecreaseNumberActionPayload>(
-  DECREASE_NUMBER
-);
+export const actionCreators = {
+  increaseNumber: createAction<IIncreaseNumberActionPayload>(INCREASE_NUMBER),
+  decreaseNumber: createAction<IDecreaseNumberActionPayload>(DECREASE_NUMBER)
+};
