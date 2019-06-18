@@ -18,6 +18,7 @@ Organization.init(
     description: { type: new DataTypes.TEXT() },
     link: { type: new DataTypes.STRING() },
     type: { type: new DataTypes.INTEGER() },
+    slug: { type: new DataTypes.STRING() },
     isSearchable: { type: DataTypes.BOOLEAN },
     isJoinable: { type: DataTypes.BOOLEAN }
   },
