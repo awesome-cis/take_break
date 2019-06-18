@@ -2,6 +2,7 @@ import * as express from 'express';
 import authMiddleware from './middlewares/authMiddleware';
 import { Organization } from '../models';
 import APIError from '../lib/errors/APIError';
+import { HTTP_CODE } from '../constants';
 
 const router = express.Router();
 
@@ -28,7 +29,13 @@ router.post('/', authMiddleware, async (req, res, next) => {
   });
 
   if (slugCount > 0) {
-    return next(new APIError(422, 422001, 'provided slug is already used'));
+    return next(
+      new APIError(
+        HTTP_CODE.UNPROCESSABLE_ENTITY,
+        ERROR_CODE.SLUG_ALREADY_USED,
+        'provided slug is already used'
+      )
+    );
   }
 
   const organization = await Organization.create({
@@ -41,7 +48,7 @@ router.post('/', authMiddleware, async (req, res, next) => {
     isJoinable
   });
 
-  res.status(201).send(organization.toJSON());
+  res.status(HTTP_CODE.CREATED).send(organization.toJSON());
 });
 
 router.delete('/:id', authMiddleware, async (req, res, next) => {
@@ -53,12 +60,16 @@ router.delete('/:id', authMiddleware, async (req, res, next) => {
 
   if (!organization) {
     return next(
-      new APIError(400, 400001, 'resource already deleted or not exists')
+      new APIError(
+        HTTP_CODE.BAD_REQUEST,
+        ERROR_CODE.RESOURCE_NOT_EXISTS,
+        'resource already deleted or not exists'
+      )
     );
   }
 
   await organization.destroy();
-  return res.status(204).send();
+  return res.status(HTTP_CODE.NO_CONTENT).send();
 });
 
 export default router;

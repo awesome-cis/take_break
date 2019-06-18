@@ -4,6 +4,8 @@ import prepareDatabase from '../../prepareDatabase';
 import { Organization } from '../../models';
 import factory from '../../factories';
 import * as faker from 'faker';
+import { ERROR_CODE } from '../../routes/organizations';
+import { HTTP_CODE } from '../../constants';
 
 let accessToken: string;
 
@@ -35,7 +37,7 @@ describe('POST /organizations', () => {
       .set('Authorization', '')
       .set('Accept', 'application/json');
 
-    expect(res.status).toBe(403);
+    expect(res.status).toBe(HTTP_CODE.UNAUTHORIZED);
     done();
   });
 
@@ -61,8 +63,8 @@ describe('POST /organizations', () => {
       .set('Accept', 'application/json');
 
     // Status code
-    expect(res.status).toBe(422);
-    expect(res.body.code).toBe(422001);
+    expect(res.status).toBe(HTTP_CODE.UNPROCESSABLE_ENTITY);
+    expect(res.body.code).toBe(ERROR_CODE.SLUG_ALREADY_USED);
 
     done();
   });
@@ -83,7 +85,7 @@ describe('POST /organizations', () => {
       .set('Accept', 'application/json');
 
     // Status code
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(HTTP_CODE.CREATED);
 
     // Response body
     expect(res.body.name).toBe(name);
@@ -109,7 +111,7 @@ describe('DELETE /organizations/:id', () => {
       .set('Authorization', '')
       .set('Accept', 'application/json');
 
-    expect(res.status).toBe(403);
+    expect(res.status).toBe(HTTP_CODE.UNAUTHORIZED);
     done();
   });
 
@@ -131,7 +133,7 @@ describe('DELETE /organizations/:id', () => {
       .set('Accept', 'application/json');
 
     // Response
-    expect(res.status).toBe(204);
+    expect(res.status).toBe(HTTP_CODE.NO_CONTENT);
     expect(res.body).toBeNull;
 
     // Database: after
@@ -155,10 +157,10 @@ describe('DELETE /organizations/:id', () => {
       .set('Accept', 'application/json');
 
     // Response
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(HTTP_CODE.BAD_REQUEST);
 
     // Response Body
-    expect(res.body.code).toBe(400001);
+    expect(res.body.code).toBe(ERROR_CODE.RESOURCE_NOT_EXISTS);
     expect(res.body.message).toContain('already');
 
     done();
