@@ -16,8 +16,24 @@ class ReduxPage extends React.Component<IProps, {}> {
     return (
       <div>
         <div>{number}</div>
-        <button onClick={() => decreaseNumber(1)}>-1</button>
-        <button onClick={() => increaseNumber(1)}>+1</button>
+        <button
+          onClick={() =>
+            decreaseNumber({
+              number: 1
+            })
+          }
+        >
+          -1
+        </button>
+        <button
+          onClick={() =>
+            increaseNumber({
+              number: 1
+            })
+          }
+        >
+          +1
+        </button>
       </div>
     );
   }
