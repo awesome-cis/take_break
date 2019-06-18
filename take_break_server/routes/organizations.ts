@@ -5,6 +5,11 @@ import APIError from '../lib/errors/APIError';
 
 const router = express.Router();
 
+export const ERROR_CODE = {
+  SLUG_ALREADY_USED: 422001,
+  RESOURCE_NOT_EXISTS: 400001
+};
+
 router.post('/', authMiddleware, async (req, res, next) => {
   const {
     name,

@@ -7,6 +7,11 @@ import passport from '../passport';
 
 const router = express.Router();
 
+export const ERROR_CODE = {
+  USER_NOT_EXIST: 401001,
+  CODE_IS_REQUIRED: 400001
+};
+
 router.post('/login', (req, res, next) => {
   passport.authenticate(
     'local',
