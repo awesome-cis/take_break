@@ -3,6 +3,9 @@ import { agent } from 'supertest';
 import prepareDatabase from '../../prepareDatabase';
 import { Organization } from '../../models';
 import factory from '../../factories';
+import * as faker from 'faker';
+import { ERROR_CODE } from '../../routes/organizations';
+import { HTTP_CODE } from '../../constants';
 
 let accessToken: string;
 
@@ -11,11 +14,10 @@ const name = 'Org Name';
 const description = 'Org description';
 const link = 'Org link';
 const type = Organization.TYPE.INDIVIDUAL;
+const slug = faker.lorem.slug();
 const isSearchable = true;
 const isJoinable = true;
 
-// TODO: Write failing case.
-// TODO: Extract common logic. from `it` context.
 beforeEach(async done => {
   await prepareDatabase();
 
@@ -25,25 +27,35 @@ beforeEach(async done => {
   done();
 });
 
-afterEach(() => {
-  // TODO: Clear database data.
-  //   - For now, this is ok.
-  //   - Because setup logic drops table. So, it works.
-});
-
 describe('POST /organizations', () => {
-  beforeEach(async done => {
+  const path = '/organizations';
+
+  it('fails with invalid accessToken', async done => {
+    const res = await agent(app)
+      .post(path)
+      .send({})
+      .set('Authorization', '')
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(HTTP_CODE.UNAUTHORIZED);
     done();
   });
 
-  it('creates a Organization', async done => {
+  it('fails when link already exists', async done => {
+    const SLUG = 'DUPLICATED_SLUG';
+
+    await factory.create('organization', {
+      slug: SLUG
+    });
+
     const res = await agent(app)
-      .post('/organizations')
+      .post(path)
       .send({
         name,
         description,
-        ['link' as string]: link,
+        ['link' as string]: faker.internet.url(),
         type,
+        slug: SLUG,
         isSearchable,
         isJoinable
       })
@@ -51,7 +63,29 @@ describe('POST /organizations', () => {
       .set('Accept', 'application/json');
 
     // Status code
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(HTTP_CODE.UNPROCESSABLE_ENTITY);
+    expect(res.body.code).toBe(ERROR_CODE.SLUG_ALREADY_USED);
+
+    done();
+  });
+
+  it('creates a Organization', async done => {
+    const res = await agent(app)
+      .post(path)
+      .send({
+        name,
+        description,
+        ['link' as string]: link,
+        type,
+        slug,
+        isSearchable,
+        isJoinable
+      })
+      .set('Authorization', accessToken)
+      .set('Accept', 'application/json');
+
+    // Status code
+    expect(res.status).toBe(HTTP_CODE.CREATED);
 
     // Response body
     expect(res.body.name).toBe(name);
@@ -70,6 +104,17 @@ describe('POST /organizations', () => {
 });
 
 describe('DELETE /organizations/:id', () => {
+  it('fails with invalid accessToken', async done => {
+    const res = await agent(app)
+      .del('/organizations/:id')
+      .send({})
+      .set('Authorization', '')
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(HTTP_CODE.UNAUTHORIZED);
+    done();
+  });
+
   it('mark the record as delete', async done => {
     // TODO: strong type def
     const organization: any = await factory.create('organization');
@@ -77,10 +122,10 @@ describe('DELETE /organizations/:id', () => {
     // Database: before
     const allOrganizationsCountBefore = await Organization.count({
       where: {
-        isDeleted: true
+        deletedAt: null
       }
     });
-    expect(allOrganizationsCountBefore).toBe(0);
+    expect(allOrganizationsCountBefore).toBe(1);
 
     const res = await agent(app)
       .del(`/organizations/${organization.id}`)
@@ -88,16 +133,35 @@ describe('DELETE /organizations/:id', () => {
       .set('Accept', 'application/json');
 
     // Response
-    expect(res.status).toBe(204);
+    expect(res.status).toBe(HTTP_CODE.NO_CONTENT);
     expect(res.body).toBeNull;
 
     // Database: after
     const allOrganizationsCountAfter = await Organization.count({
       where: {
-        isDeleted: true
+        deletedAt: null
       }
     });
-    expect(allOrganizationsCountAfter).toBe(1);
+    expect(allOrganizationsCountAfter).toBe(0);
+
+    done();
+  });
+
+  it('errors if already deleted', async done => {
+    const organization: any = await factory.create('organization');
+    organization.destroy();
+
+    const res = await agent(app)
+      .del(`/organizations/${organization.id}`)
+      .set('Authorization', accessToken)
+      .set('Accept', 'application/json');
+
+    // Response
+    expect(res.status).toBe(HTTP_CODE.BAD_REQUEST);
+
+    // Response Body
+    expect(res.body.code).toBe(ERROR_CODE.RESOURCE_NOT_EXISTS);
+    expect(res.body.message).toContain('already');
 
     done();
   });
