@@ -4,8 +4,14 @@ import superagent from 'superagent';
 
 import { User } from '../models';
 import passport from '../passport';
+import { HTTP_CODE } from '../constants';
 
 const router = express.Router();
+
+export const ERROR_CODE = {
+  USER_NOT_EXIST: 401001,
+  CODE_IS_REQUIRED: 400001
+};
 
 router.post('/login', (req, res, next) => {
   passport.authenticate(
@@ -18,8 +24,8 @@ router.post('/login', (req, res, next) => {
       }
 
       if (!user) {
-        return res.status(401).send({
-          code: 401001,
+        return res.status(HTTP_CODE.UNAUTHORIZED).send({
+          code: ERROR_CODE.USER_NOT_EXIST,
           message: info.message
         });
       }
@@ -40,8 +46,8 @@ router.post('/github', (req, res, _next) => {
   const code = req.body.code;
 
   if (!code) {
-    return res.status(400).send({
-      code: 400001,
+    return res.status(HTTP_CODE.BAD_REQUEST).send({
+      code: ERROR_CODE.CODE_IS_REQUIRED,
       message: 'Invalid code'
     });
   }
@@ -109,7 +115,8 @@ router.post('/register', async (req, res, _next) => {
   const { name, email, password } = req.body;
 
   if (!email || !name || !password) {
-    return res.status(400).send({
+    return res.status(HTTP_CODE.BAD_REQUEST).send({
+      // TODO: Define error code.
       code: -1,
       message: 'failed'
     });
@@ -127,7 +134,7 @@ router.post('/register', async (req, res, _next) => {
       try {
         const user = await User.register(name, email, password);
 
-        res.status(200).send({
+        res.status(HTTP_CODE.OK).send({
           user: {
             id: user.id,
             name: user.name,
@@ -138,10 +145,12 @@ router.post('/register', async (req, res, _next) => {
         });
       } catch (err) {
         console.error(err);
+        // TODO: use `next(err)`
         throw Error('Password generation failed');
       }
     } else {
-      res.status(400).send({
+      res.status(HTTP_CODE.BAD_REQUEST).send({
+        // TODO: Define error code.
         code: 1,
         message: 'You are already registered.',
         uiMessage: 'User has been registered.'
@@ -149,7 +158,8 @@ router.post('/register', async (req, res, _next) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(400).send({
+    res.status(HTTP_CODE.BAD_REQUEST).send({
+      // TODO: Define error code.
       code: 1,
       message: 'You are already registered.',
       uiMessage: 'User has been registered.'
