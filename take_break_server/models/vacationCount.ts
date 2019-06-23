@@ -1,5 +1,6 @@
 import * as db from '../database/db';
 import { defaultMigrationColumns } from '../config/migrationColumns';
+import { defaultMigrationOptions } from '../config/migrationOptions';
 
 import { Model, DataTypes } from 'sequelize';
 
@@ -15,7 +16,8 @@ VacationCount.init(
   },
   {
     sequelize: db.sequelize,
-    tableName: 'vacationCounts'
+    tableName: 'vacationCounts',
+    ...defaultMigrationOptions
   }
 );
 

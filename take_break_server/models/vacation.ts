@@ -2,6 +2,7 @@ import * as db from '../database/db';
 import { defaultMigrationColumns } from '../config/migrationColumns';
 
 import { Model, DataTypes } from 'sequelize';
+import { defaultMigrationOptions } from '../config/migrationOptions';
 
 class Vacation extends Model {}
 
@@ -19,7 +20,8 @@ Vacation.init(
   },
   {
     sequelize: db.sequelize,
-    tableName: 'vacations'
+    tableName: 'vacations',
+    ...defaultMigrationOptions
   }
 );
 

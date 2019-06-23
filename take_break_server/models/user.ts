@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { Model, DataTypes } from 'sequelize';
 import { defaultMigrationColumns } from '../config/migrationColumns';
 import * as jwt from 'jsonwebtoken';
+import { defaultMigrationOptions } from '../config/migrationOptions';
 
 class User extends Model {
   id?: number;
@@ -58,7 +59,8 @@ User.init(
   },
   {
     sequelize: db.sequelize,
-    tableName: 'users'
+    tableName: 'users',
+    ...defaultMigrationOptions
   }
 );
 

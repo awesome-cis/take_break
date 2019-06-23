@@ -2,6 +2,7 @@ import app from '../../app';
 import { agent, Response } from 'supertest';
 import prepareDatabase from '../../prepareDatabase';
 import { User } from '../../models';
+import { HTTP_CODE } from '../../constants';
 
 const NAME = 'Test User';
 const EMAIL = 'user@test.com';
@@ -36,7 +37,7 @@ describe('POST /auth/register', () => {
       .set('Accept', 'application/json');
 
     // Response
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HTTP_CODE.OK);
     checkAuthResponseBody(res);
 
     // Database
@@ -63,7 +64,7 @@ describe('POST /auth/login', () => {
       .set('Accept', 'application/json');
 
     // Response
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HTTP_CODE.OK);
     checkAuthResponseBody(res);
 
     // Database
