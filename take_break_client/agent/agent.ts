@@ -1,7 +1,8 @@
 import fetch from 'isomorphic-unfetch';
 
 // TODO 환경에 따라 API_ENDPOINT 처리 추가
-export const API_ENDPOINT: string = process.env.API_ENDPOINT || '';
+export const API_ENDPOINT: string =
+  process.env.API_ENDPOINT || 'http://localhost:8080';
 
 const fetchAuthorizationToken = () => {
   // TODO get token from sessionStore
