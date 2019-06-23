@@ -3,9 +3,11 @@ import { agent } from 'supertest';
 import prepareDatabase from '../../prepareDatabase';
 import { User } from '../../models';
 
-const NAME = 'Test User';
+const USERNAME = 'Test User';
 const EMAIL = 'user@test.com';
 const PASSWORD = 'test1234';
+const SLUG = 'testslug';
+const BIO = 'hello';
 
 // TODO: Write failing case.
 // TODO: Extract common logic. from `it` context.
@@ -26,9 +28,11 @@ describe('POST /auth/register', () => {
     const res = await agent(app)
       .post('/auth/register')
       .send({
-        name: NAME,
+        username: USERNAME,
         email: EMAIL,
-        password: PASSWORD
+        password: PASSWORD,
+        slug: SLUG,
+        bio: BIO
       })
       .set('Accept', 'application/json');
 
@@ -43,7 +47,9 @@ describe('POST /auth/register', () => {
     const resUser = res.body.user;
     expect(typeof resUser.id).toBe('number');
     expect(resUser.email).toBe(EMAIL);
-    expect(resUser.name).toBe(NAME);
+    expect(resUser.username).toBe(USERNAME);
+    expect(resUser.slug).toBe(SLUG);
+    expect(resUser.bio).toBe(BIO);
 
     // Database
     const allUsersCount = await User.count();
@@ -55,7 +61,7 @@ describe('POST /auth/register', () => {
 
 describe('POST /auth/login', () => {
   beforeEach(done => {
-    User.register(NAME, EMAIL, PASSWORD).then(() => {
+    User.register(USERNAME, EMAIL, PASSWORD, SLUG, BIO).then(() => {
       done();
     });
   });
@@ -80,7 +86,7 @@ describe('POST /auth/login', () => {
     const resUser = res.body.user;
     expect(typeof resUser.id).toBe('number');
     expect(resUser.email).toBe(EMAIL);
-    expect(resUser.name).toBe(NAME);
+    expect(resUser.username).toBe(USERNAME);
 
     // Database
     const allUsersCount = await User.count();
