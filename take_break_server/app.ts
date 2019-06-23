@@ -13,6 +13,7 @@ import organizationsRouter from './routes/organizations';
 
 import authRouter from './routes/auth';
 import prepareDatabase from './prepareDatabase';
+import apiErrorMiddleware from './routes/errorMiddlewares/apiErrorMiddleware';
 
 import './models';
 
@@ -36,6 +37,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/organizations', organizationsRouter);
+
+app.use(apiErrorMiddleware);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
