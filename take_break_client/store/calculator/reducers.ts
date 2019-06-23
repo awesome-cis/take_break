@@ -1,28 +1,30 @@
 import {
   ICalculatorState,
-  calculatorActionTypes,
   INCREASE_NUMBER,
-  DECREASE_NUMBER
+  IIncreaseNumberActionPayload,
+  DECREASE_NUMBER,
+  IDecreaseNumberActionPayload
 } from './types';
+import { handleActions, Action } from 'redux-actions';
 
 const initialState: ICalculatorState = {
   number: 0
 };
 
-export const calculatorReducer = (
-  state = initialState,
-  action: calculatorActionTypes
-): ICalculatorState => {
-  switch (action.type) {
-    case INCREASE_NUMBER:
-      return {
-        number: state.number + action.payload.number
-      };
-    case DECREASE_NUMBER:
-      return {
-        number: state.number - action.payload.number
-      };
-    default:
-      return state;
-  }
-};
+export const calculatorReducer = handleActions<ICalculatorState>(
+  {
+    [INCREASE_NUMBER]: (
+      state,
+      action: Action<IIncreaseNumberActionPayload>
+    ): ICalculatorState => {
+      return { ...state, number: state.number + action.payload.number };
+    },
+    [DECREASE_NUMBER]: (
+      state,
+      action: Action<IDecreaseNumberActionPayload>
+    ): ICalculatorState => {
+      return { ...state, number: state.number - action.payload.number };
+    }
+  },
+  initialState
+);

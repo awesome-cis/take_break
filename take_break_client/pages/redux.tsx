@@ -1,23 +1,39 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
-import { increaseNumber, decreaseNumber } from '../store/calculator/actions';
+import { bindActionCreators, Dispatch } from 'redux';
+import { actionCreators as calculatorActions } from '../store/calculator/actions';
 
 export interface IProps {
   number: number;
-  increaseNumber: typeof increaseNumber;
-  decreaseNumber: typeof decreaseNumber;
+  calculatorActions: typeof calculatorActions;
 }
 
 class ReduxPage extends React.Component<IProps, {}> {
   public render() {
-    const { number, increaseNumber, decreaseNumber } = this.props;
+    const { number, calculatorActions } = this.props;
 
     return (
       <div>
         <div>{number}</div>
-        <button onClick={() => decreaseNumber(1)}>-1</button>
-        <button onClick={() => increaseNumber(1)}>+1</button>
+        <button
+          onClick={() =>
+            calculatorActions.decreaseNumber({
+              number: 1
+            })
+          }
+        >
+          -1
+        </button>
+        <button
+          onClick={() =>
+            calculatorActions.increaseNumber({
+              number: 1
+            })
+          }
+        >
+          +1
+        </button>
       </div>
     );
   }
@@ -27,10 +43,9 @@ const mapStateToProps = ({ calculator }: AppState) => ({
   number: calculator.number
 });
 
-const mapDispatchToProps = {
-  increaseNumber: increaseNumber,
-  decreaseNumber: decreaseNumber
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  calculatorActions: bindActionCreators(calculatorActions, dispatch)
+});
 
 export default connect(
   mapStateToProps,
