@@ -9,15 +9,17 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable(tableName, {
       ...defaultMigrationColumns,
-      name: {
+      username: {
         type: new DataTypes.STRING(),
         allowNull: false
       },
       email: {
-        type: new DataTypes.STRING()
+        type: new DataTypes.STRING(),
+        allowNull: false
       },
       password: {
-        type: new DataTypes.STRING()
+        type: new DataTypes.STRING(),
+        allowNull: false
       },
       provider: {
         type: new DataTypes.STRING()
@@ -25,17 +27,15 @@ module.exports = {
       oAuthId: {
         type: new DataTypes.STRING()
       },
-      nickname: {
-        type: new DataTypes.STRING()
-      },
-      introduction: {
+      bio: {
         type: new DataTypes.STRING()
       },
       profileImage: {
         type: new DataTypes.STRING()
       },
       slug: {
-        type: new DataTypes.STRING()
+        type: new DataTypes.STRING(),
+        allowNull: false
       }
     });
   },

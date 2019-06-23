@@ -7,21 +7,27 @@ class User extends Model {
   password?: string;
 
   static register(
-    name: string,
+    username: string,
     email: string,
-    password: string
+    password: string,
+    slug: string,
+    bio: string
   ): Promise<{
     id: number;
-    name: string;
+    username: string;
     email: string;
     password: string;
+    slug: string;
+    bio: string;
   }> {
     const hash = bcrypt.hashSync(password, 12);
 
     return User.create({
-      name: name,
-      email: email,
-      password: hash
+      username,
+      email,
+      password: hash,
+      slug,
+      bio
     });
   }
 
@@ -33,20 +39,29 @@ class User extends Model {
 User.init(
   {
     ...defaultMigrationColumns,
-    name: {
+    username: {
       type: new DataTypes.STRING(),
       allowNull: false
     },
     email: {
-      type: new DataTypes.STRING()
+      type: new DataTypes.STRING(),
+      allowNull: false
     },
     password: {
-      type: new DataTypes.STRING()
+      type: new DataTypes.STRING(),
+      allowNull: false
     },
     provider: {
       type: new DataTypes.STRING()
     },
     oAuthId: {
+      type: new DataTypes.STRING()
+    },
+    slug: {
+      type: new DataTypes.STRING(),
+      allowNull: false
+    },
+    bio: {
       type: new DataTypes.STRING()
     }
   },
