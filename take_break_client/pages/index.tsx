@@ -1,28 +1,18 @@
 import { NextFunctionComponent } from 'next';
+import Link from 'next/link';
+import { Button } from 'antd';
 
-import agent from '../agent';
-
-const Index: NextFunctionComponent = props => {
-  // TODO 확인 후 console.log 제거
-  console.log('props', props);
-  return <div>Index</div>;
-};
-
-Index.getInitialProps = async function() {
-  const res = await agent.post('/auth/register', {
-    name: 'ryu',
-    email: 'oyeahhh@naver.com',
-    password: 'oyeahhh'
-  });
-
-  const data = await res.json();
-
-  // TODO 확인 후 console.log 제거
-  console.log('data', data);
-
-  return {
-    resData: data
-  };
+const Index: NextFunctionComponent = () => {
+  return (
+    <div>
+      <Link href="/login">
+        <Button size="large">Login</Button>
+      </Link>
+      <Link href="/register">
+        <Button size="large">Register</Button>
+      </Link>
+    </div>
+  );
 };
 
 export default Index;

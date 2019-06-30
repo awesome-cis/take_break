@@ -4,9 +4,11 @@ import prepareDatabase from '../../prepareDatabase';
 import { User } from '../../models';
 import { HTTP_CODE } from '../../constants';
 
-const NAME = 'Test User';
+const USERNAME = 'Test User';
 const EMAIL = 'user@test.com';
 const PASSWORD = 'test1234';
+const SLUG = 'testslug';
+const BIO = 'hello';
 
 const checkAuthResponseBody = (res: Response) => {
   const accessToken = res.body.accessToken;
@@ -16,7 +18,12 @@ const checkAuthResponseBody = (res: Response) => {
   const resUser = res.body.user;
   expect(typeof resUser.id).toBe('number');
   expect(resUser.email).toBe(EMAIL);
-  expect(resUser.name).toBe(NAME);
+
+  if (resUser.username && resUser.slug && resUser.bio) {
+    expect(resUser.username).toBe(USERNAME);
+    expect(resUser.slug).toBe(SLUG);
+    expect(resUser.bio).toBe(BIO);
+  }
 };
 
 // TODO: Write failing case.
@@ -30,9 +37,11 @@ describe('POST /auth/register', () => {
     const res = await agent(app)
       .post('/auth/register')
       .send({
-        name: NAME,
+        username: USERNAME,
         email: EMAIL,
-        password: PASSWORD
+        password: PASSWORD,
+        slug: SLUG,
+        bio: BIO
       })
       .set('Accept', 'application/json');
 
@@ -50,7 +59,7 @@ describe('POST /auth/register', () => {
 
 describe('POST /auth/login', () => {
   beforeEach(async done => {
-    await User.register(NAME, EMAIL, PASSWORD);
+    await User.register(USERNAME, EMAIL, PASSWORD, SLUG, BIO);
     done();
   });
 

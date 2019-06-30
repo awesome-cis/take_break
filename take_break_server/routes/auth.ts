@@ -112,9 +112,9 @@ router.post('/github', (req, res, _next) => {
 });
 
 router.post('/register', async (req, res, _next) => {
-  const { name, email, password } = req.body;
+  const { username, email, password, slug, bio } = req.body;
 
-  if (!email || !name || !password) {
+  if (!email || !username || !password || !slug) {
     return res.status(HTTP_CODE.BAD_REQUEST).send({
       // TODO: Define error code.
       code: -1,
@@ -132,13 +132,15 @@ router.post('/register', async (req, res, _next) => {
 
     if (!user) {
       try {
-        const user = await User.register(name, email, password);
+        const user = await User.register(username, email, password, slug, bio);
 
         res.status(HTTP_CODE.OK).send({
           user: {
             id: user.id,
-            name: user.name,
-            email: user.email
+            username: user.username,
+            email: user.email,
+            slug: user.slug,
+            bio: user.bio
           },
           accessToken: jwt.sign({ id: user.id }, process.env
             .JWT_SECRET as string)
