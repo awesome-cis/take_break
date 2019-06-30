@@ -51,7 +51,6 @@ describe('POST /auth/register', () => {
 
     // Database
     const allUsersCount = await User.count();
-    console.log('POST /auth/register --- allUsersCount', allUsersCount);
     expect(allUsersCount).toBe(1);
 
     done();

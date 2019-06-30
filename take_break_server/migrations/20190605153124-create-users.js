@@ -10,8 +10,7 @@ module.exports = {
     return queryInterface.createTable(tableName, {
       ...defaultMigrationColumns,
       username: {
-        type: new DataTypes.STRING(),
-        allowNull: false
+        type: new DataTypes.STRING()
       },
       email: {
         type: new DataTypes.STRING(),
@@ -34,8 +33,7 @@ module.exports = {
         type: new DataTypes.STRING()
       },
       slug: {
-        type: new DataTypes.STRING(),
-        allowNull: false
+        type: new DataTypes.STRING()
       }
     });
   },

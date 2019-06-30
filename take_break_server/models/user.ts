@@ -47,8 +47,7 @@ User.init(
   {
     ...defaultMigrationColumns,
     username: {
-      type: new DataTypes.STRING(),
-      allowNull: false
+      type: new DataTypes.STRING()
     },
     email: {
       type: new DataTypes.STRING(),
@@ -65,8 +64,7 @@ User.init(
       type: new DataTypes.STRING()
     },
     slug: {
-      type: new DataTypes.STRING(),
-      allowNull: false
+      type: new DataTypes.STRING()
     },
     bio: {
       type: new DataTypes.STRING()
