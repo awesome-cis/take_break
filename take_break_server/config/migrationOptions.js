@@ -1,0 +1,1 @@
+exports.defaultMigrationOptions = { paranoid: true };

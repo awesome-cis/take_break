@@ -1,7 +1,8 @@
 import app from '../../app';
-import { agent } from 'supertest';
+import { agent, Response } from 'supertest';
 import prepareDatabase from '../../prepareDatabase';
 import { User } from '../../models';
+import { HTTP_CODE } from '../../constants';
 
 const USERNAME = 'Test User';
 const EMAIL = 'user@test.com';
@@ -9,18 +10,26 @@ const PASSWORD = 'test1234';
 const SLUG = 'testslug';
 const BIO = 'hello';
 
-// TODO: Write failing case.
-// TODO: Extract common logic. from `it` context.
-beforeEach(done => {
-  prepareDatabase().then(() => {
-    done();
-  });
-});
+const checkAuthResponseBody = (res: Response) => {
+  const accessToken = res.body.accessToken;
+  expect(typeof accessToken).toBe('string');
+  expect(accessToken.length).not.toBe(0);
 
-afterEach(() => {
-  // TODO: Clear database data.
-  //   - For now, this is ok.
-  //   - Because setup logic drops table. So, it works.
+  const resUser = res.body.user;
+  expect(typeof resUser.id).toBe('number');
+  expect(resUser.email).toBe(EMAIL);
+
+  if (resUser.username && resUser.slug && resUser.bio) {
+    expect(resUser.username).toBe(USERNAME);
+    expect(resUser.slug).toBe(SLUG);
+    expect(resUser.bio).toBe(BIO);
+  }
+};
+
+// TODO: Write failing case.
+beforeEach(async done => {
+  await prepareDatabase();
+  done();
 });
 
 describe('POST /auth/register', () => {
@@ -36,23 +45,13 @@ describe('POST /auth/register', () => {
       })
       .set('Accept', 'application/json');
 
-    // Status code
-    expect(res.status).toBe(200);
-
-    // Response body
-    const accessToken = res.body.accessToken;
-    expect(typeof accessToken).toBe('string');
-    expect(accessToken.length).not.toBe(0);
-
-    const resUser = res.body.user;
-    expect(typeof resUser.id).toBe('number');
-    expect(resUser.email).toBe(EMAIL);
-    expect(resUser.username).toBe(USERNAME);
-    expect(resUser.slug).toBe(SLUG);
-    expect(resUser.bio).toBe(BIO);
+    // Response
+    expect(res.status).toBe(HTTP_CODE.OK);
+    checkAuthResponseBody(res);
 
     // Database
     const allUsersCount = await User.count();
+    console.log('POST /auth/register --- allUsersCount', allUsersCount);
     expect(allUsersCount).toBe(1);
 
     done();
@@ -60,10 +59,9 @@ describe('POST /auth/register', () => {
 });
 
 describe('POST /auth/login', () => {
-  beforeEach(done => {
-    User.register(USERNAME, EMAIL, PASSWORD, SLUG, BIO).then(() => {
-      done();
-    });
+  beforeEach(async done => {
+    await User.register(USERNAME, EMAIL, PASSWORD, SLUG, BIO);
+    done();
   });
 
   it('expect to response correctly', async done => {
@@ -75,18 +73,9 @@ describe('POST /auth/login', () => {
       })
       .set('Accept', 'application/json');
 
-    // Status code
-    expect(res.status).toBe(200);
-
-    // Response body
-    const accessToken = res.body.accessToken;
-    expect(typeof accessToken).toBe('string');
-    expect(accessToken.length).not.toBe(0);
-
-    const resUser = res.body.user;
-    expect(typeof resUser.id).toBe('number');
-    expect(resUser.email).toBe(EMAIL);
-    expect(resUser.username).toBe(USERNAME);
+    // Response
+    expect(res.status).toBe(HTTP_CODE.OK);
+    checkAuthResponseBody(res);
 
     // Database
     const allUsersCount = await User.count();

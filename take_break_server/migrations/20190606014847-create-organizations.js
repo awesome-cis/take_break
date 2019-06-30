@@ -21,6 +21,9 @@ module.exports = {
       type: {
         type: new DataTypes.INTEGER()
       },
+      slug: {
+        type: new DataTypes.STRING()
+      },
       isSearchable: {
         type: Sequelize.BOOLEAN
       },

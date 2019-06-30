@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { User } from '../../models';
+import { HTTP_CODE } from '../../constants';
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   // read the token from header or url
@@ -11,7 +12,8 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   // token does not exist
   if (!token) {
-    return res.status(403).json({
+    // TODO: use `next(APIError)`
+    return res.status(HTTP_CODE.UNAUTHORIZED).json({
       code: -1,
       message: 'invalid token',
       uiMessage: 'invalid token'
@@ -44,7 +46,8 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     };
     next();
   }).catch(error => {
-    res.status(403).json({
+    // TODO: use `next(APIError)`
+    res.status(HTTP_CODE.UNAUTHORIZED).json({
       code: -1,
       message: error.message,
       uiMessage: 'invalid token'
