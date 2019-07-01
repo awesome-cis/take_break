@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { AppState } from '../store';
+import { AppState } from '../src/store';
 import { bindActionCreators, Dispatch } from 'redux';
-import { actionCreators as calculatorActions } from '../store/calculator/actions';
+import { actionCreators as calculatorActions } from '../src/store/calculator/actions';
 
 export interface IProps {
   number: number;
