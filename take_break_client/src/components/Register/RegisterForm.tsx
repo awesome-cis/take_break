@@ -2,8 +2,7 @@ import * as React from 'react';
 import Router from 'next/router';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-
-import agent from '../../../agent';
+import { UserServiceAgent as USA } from '../../../agent';
 
 interface IFormValue {
   username: string;
@@ -18,7 +17,7 @@ class RegistrationForm extends React.Component<FormComponentProps> {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values: IFormValue) => {
       if (!err) {
-        agent.post('/auth/register', { ...values }).then(() => {
+        USA.register(values).then(() => {
           Router.push('/login');
         });
       }
