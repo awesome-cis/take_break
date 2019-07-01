@@ -2,17 +2,23 @@
 
 ## Getting Started
 
+### Production
+
+```
+$ cp .env.sample .env
+$ vi .env
+# => start server
+```
+
 ### Development
 
-- create take_break_server/.env
+> `.env.local`은 로컬(development, test)에서 공통으로 사용되며 .gitignore에 포함되어 변경사항 개발자마다 다른 값을 가질 수 있도록 해줍니다.
 
+- `.env.local` 세팅
   ```
-  $ cd take_break_server
-  $ cp .env.sample .env
-  $ vi .env
-  //=> Set your environment values
+  $ cp .env.local.sample .env.local
   ```
-
+- `.env.development` 세팅
 - start server
 
   ```
@@ -30,6 +36,11 @@
 
 ### Test
 
+- `.env.local` 세팅
+  ```
+  $ cp .env.local.sample .env.local
+  ```
+- `.env.test` 세팅
 - reset database
 
   ```
