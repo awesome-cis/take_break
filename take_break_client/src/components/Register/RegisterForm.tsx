@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 
-import agent from '../../../agent';
+import agent from '../../agent';
 
 interface IFormValue {
   username: string;
