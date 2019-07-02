@@ -2,26 +2,21 @@ import * as React from 'react';
 import Router from 'next/router';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import { UserServiceAgent as USA } from '../../../agent';
-
-interface IFormValue {
-  username: string;
-  email: string;
-  slug: string;
-  password: string;
-  bio: string;
-}
+import { UserServiceAgent } from '../../../agent';
+import { IRegisterFormValue } from '../../../agent/UserServiceAgent';
 
 class RegistrationForm extends React.Component<FormComponentProps> {
   handleSubmit = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values: IFormValue) => {
-      if (!err) {
-        USA.register(values).then(() => {
-          Router.push('/login');
-        });
+    this.props.form.validateFieldsAndScroll(
+      (err, values: IRegisterFormValue) => {
+        if (!err) {
+          UserServiceAgent.register(values).then(() => {
+            Router.push('/login');
+          });
+        }
       }
-    });
+    );
   };
 
   render() {
