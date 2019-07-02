@@ -5,14 +5,14 @@ let filename = '';
 
 switch (process.env.NODE_ENV) {
   case 'production':
-    filename = '.env';
+    filename = '.env.production';
     break;
   case 'test':
-    filename = '.env.local.test';
+    filename = '.env.test';
     break;
   case 'development':
   default:
-    filename = '.env.local.development';
+    filename = '.env.development';
     break;
 }
 
