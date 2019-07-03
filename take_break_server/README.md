@@ -16,7 +16,7 @@ $ vi .env
 
 - `.env.local` 세팅
   ```
-  $ cp .env.local.sample .env.local
+  $ cp config/.env.local.sample config/.env.local
   ```
 - `.env.development` 세팅
 - start server
@@ -38,7 +38,7 @@ $ vi .env
 
 - `.env.local` 세팅
   ```
-  $ cp .env.local.sample .env.local
+  $ cp config/.env.local.sample config/.env.local
   ```
 - `.env.test` 세팅
 - reset database
