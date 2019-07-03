@@ -88,8 +88,8 @@ class OrganizationRegisterationForm extends React.Component<Props> {
       ]
     })(
       <Radio.Group>
-        <Radio value={OrganizationType.Individual}>개인 (individual)</Radio>
-        <Radio value={OrganizationType.Company}>조직 (company)</Radio>
+        <Radio value={OrganizationType.Individual}>개인</Radio>
+        <Radio value={OrganizationType.Company}>기업/단체</Radio>
       </Radio.Group>
     );
   };
