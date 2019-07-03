@@ -1,10 +1,10 @@
-import OrganizationRegistration from 'components/OrganizationRegistration/OrganizationRegistration';
 import { NextFunctionComponent } from 'next';
 import * as React from 'react';
+import Organization from 'components/Organization';
 
-type ActionType = 'register';
+export type ActionType = 'registration';
 
-export type OrganizationPageParams = {
+export type PageParamsType = {
   action: ActionType;
 };
 
@@ -15,17 +15,10 @@ type Props = {
 
 const OrganizationsPage: NextFunctionComponent<
   Props,
-  OrganizationPageParams
-> = props => {
-  switch (props.action) {
-    case 'register':
-      return <OrganizationRegistration />;
-    default:
-      return null;
-  }
-};
+  PageParamsType
+> = props => <Organization action={props.action} />;
 
-OrganizationsPage.getInitialProps = (props): OrganizationPageParams => {
+OrganizationsPage.getInitialProps = (props): PageParamsType => {
   return {
     action: props.query.action as ActionType
   };

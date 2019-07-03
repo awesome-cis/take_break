@@ -1,7 +1,7 @@
-import './OrganizationRegistration.scss';
+import './styles.scss';
 
 import { Card } from 'antd';
-import OrganizationRegisterationForm from 'components/OrganizationRegisterForm/OrganizationRegisterationForm';
+import OrganizationRegistrationForm from '../OrganizationRegistrationForm';
 
 const OrganizationRegistration: React.FC = () => {
   return (
@@ -11,7 +11,7 @@ const OrganizationRegistration: React.FC = () => {
         bordered={false}
         className={'OrganizationRegistration__card'}
       >
-        <OrganizationRegisterationForm />
+        <OrganizationRegistrationForm />
       </Card>
     </div>
   );

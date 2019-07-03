@@ -1,4 +1,4 @@
-import './OrganizationRegisterationForm.scss';
+import './styles.scss';
 
 import { Button, Form, Icon, Input, Radio, Select } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
@@ -17,7 +17,7 @@ interface IProps {}
 
 type Props = IProps & FormComponentProps;
 
-class OrganizationRegisterationForm extends React.Component<Props> {
+class OrganizationregistrationForm extends React.Component<Props> {
   handleSubmit = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { validateFields } = this.props.form;
 
@@ -116,5 +116,5 @@ class OrganizationRegisterationForm extends React.Component<Props> {
 }
 
 export default Form.create({ name: 'OrganizationRegistrationForm' })(
-  OrganizationRegisterationForm
+  OrganizationregistrationForm
 );
