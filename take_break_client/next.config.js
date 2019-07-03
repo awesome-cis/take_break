@@ -10,11 +10,18 @@ module.exports = withTypescript(
         javascriptEnabled: true
       },
       webpack(config, options) {
-        config.resolve.alias['components'] = path.join(
-          __dirname,
-          'src/components'
+        const aliases = ['agent', 'components', 'store', 'styles'].reduce(
+          (r, v) => {
+            r[v] = path.join(__dirname, `src/${v}`);
+            return r;
+          },
+          {}
         );
-        config.resolve.alias['styles'] = path.join(__dirname, 'src/styles');
+
+        config.resolve.alias = {
+          ...(config.resolve.alias || {}),
+          ...aliases
+        };
         return config;
       }
     })
