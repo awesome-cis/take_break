@@ -6,7 +6,7 @@ import * as React from 'react';
 
 const { Option } = Select;
 
-// TODO: 상수 파일 분리
+// TODO: 상수 파일 분리, 엄격한 타이핑 적용
 // NOTE: server와 함께 사용할 수 있어, 통합 가능성 고려
 enum OrganizationType {
   Individual = 100,
