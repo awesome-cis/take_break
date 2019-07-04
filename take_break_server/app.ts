@@ -1,4 +1,4 @@
-import './init';
+import './initEnv';
 import './models/user';
 
 import * as cookieParser from 'cookie-parser';

@@ -1,6 +1,6 @@
 import { Sequelize, Options } from 'sequelize';
 
-const HOST = 'localhost';
+const HOST = process.env.MYSQL_HOST;
 const MY_SQL = 'mysql';
 const SEQUELIZE_OPTIONS: Options = {
   host: HOST,
@@ -11,23 +11,23 @@ const newSequelize = (): Sequelize => {
   switch (process.env.NODE_ENV) {
     case 'test':
       return new Sequelize(
-        process.env.TEST_MYSQL_DATABASE!,
-        process.env.TEST_MYSQL_USERNAME!,
-        process.env.TEST_MYSQL_PASSWORD!,
+        process.env.MYSQL_DATABASE!,
+        process.env.MYSQL_USERNAME!,
+        process.env.MYSQL_PASSWORD!,
         { ...SEQUELIZE_OPTIONS, logging: false }
       );
     case 'development':
       return new Sequelize(
-        process.env.DEV_MYSQL_DATABASE!,
-        process.env.DEV_MYSQL_USERNAME!,
-        process.env.DEV_MYSQL_PASSWORD!,
+        process.env.MYSQL_DATABASE!,
+        process.env.MYSQL_USERNAME!,
+        process.env.MYSQL_PASSWORD!,
         SEQUELIZE_OPTIONS
       );
     case 'production':
       return new Sequelize(
-        process.env.PROD_MYSQL_DATABASE!,
-        process.env.PROD_MYSQL_USERNAME!,
-        process.env.PROD_MYSQL_PASSWORD!,
+        process.env.MYSQL_DATABASE!,
+        process.env.MYSQL_USERNAME!,
+        process.env.MYSQL_PASSWORD!,
         SEQUELIZE_OPTIONS
       );
     default:
