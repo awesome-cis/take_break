@@ -5,11 +5,11 @@ import OrganizationRegistrationForm from '../OrganizationRegistrationForm';
 
 const OrganizationRegistration: React.FC = () => {
   return (
-    <div className={'OrganizationRegistration'}>
+    <div className="OrganizationRegistration">
       <Card
         title="조직 생성"
         bordered={false}
-        className={'OrganizationRegistration__card'}
+        className="OrganizationRegistration__card"
       >
         <OrganizationRegistrationForm />
       </Card>
