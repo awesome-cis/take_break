@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Modal, Button, Input } from 'antd';
+import { Modal, Button } from 'antd';
 
 type Props = {
   visible: boolean;
@@ -7,16 +7,15 @@ type Props = {
   onCancel(e: React.MouseEvent<any, MouseEvent>): void;
 };
 
-const OrganizationJoinModal: React.FC<Props> = props => {
-  const { visible, onOk, onCancel } = props;
-
+const OrganizationJoinCancelModal: React.FC<Props> = ({
+  visible,
+  onOk,
+  onCancel
+}) => {
   return (
     <Modal
       visible={visible}
-      title="가입 요청"
-      onOk={onOk}
-      onCancel={onCancel}
-      maskClosable={false}
+      title="가입 취소"
       footer={[
         <Button key="back" onClick={onCancel}>
           취소
@@ -26,10 +25,9 @@ const OrganizationJoinModal: React.FC<Props> = props => {
         </Button>
       ]}
     >
-      <p>정말 이 조직에 가입하시겠어요?</p>
-      <Input placeholder="조직 관리자에게 전달할 정보 (담당 업무, 부서 등...)" />
+      정말 가입을 취소하시겠어요?
     </Modal>
   );
 };
 
-export default OrganizationJoinModal;
+export default OrganizationJoinCancelModal;
