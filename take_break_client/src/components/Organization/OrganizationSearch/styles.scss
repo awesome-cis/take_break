@@ -1,0 +1,29 @@
+.OrganizationSearch {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 350px;
+  height: 100%;
+
+  &--main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &--result {
+    padding-top: 20px;
+  }
+}
+
+.OrganizationSearch__resultList {
+  .ant-list-items > div {
+    margin-top: 10px;
+  }
+}
+
+.OrganizationSearch__guide {
+  font-size: 2rem;
+}
+
+.OrganizationSearch__searchBar {
+}
