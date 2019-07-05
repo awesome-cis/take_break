@@ -1,7 +1,7 @@
-import * as React from 'react';
-import OrganizationRegistration from './OrganizationRegistration/OrganizationRegistration';
-import { ActionType } from '../../../pages/organizations';
 import Link from 'next/link';
+import * as React from 'react';
+import { ActionType } from '../../../pages/organizations';
+import OrganizationRegistration from './OrganizationRegistration';
 
 interface IProps {
   action: ActionType;
