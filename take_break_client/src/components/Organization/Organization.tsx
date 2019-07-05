@@ -3,11 +3,11 @@ import * as React from 'react';
 import { ActionType } from '../../../pages/organizations';
 import OrganizationRegistration from './OrganizationRegistration';
 
-interface IProps {
+type Props = {
   action: ActionType;
-}
+};
 
-const Organization: React.FunctionComponent<IProps> = props => {
+const Organization: React.FunctionComponent<Props> = props => {
   switch (props.action) {
     case 'registration':
       return <OrganizationRegistration />;
