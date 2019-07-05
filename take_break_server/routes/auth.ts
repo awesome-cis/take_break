@@ -33,7 +33,7 @@ router.post('/login', (req, res, next) => {
       res.send({
         user: {
           id: user.id,
-          name: user.name,
+          username: user.username,
           email: user.email
         },
         accessToken: jwt.sign({ id: user.id }, process.env.JWT_SECRET as string)

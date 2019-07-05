@@ -1,16 +1,24 @@
+import Router from 'next/router';
 import Link from 'next/link';
 import { Form, Icon, Input, Button, Typography } from 'antd';
-const { Title } = Typography;
-
-import './styles.scss';
 import { WrappedFormInternalProps } from 'antd/lib/form/Form';
+import { UserServiceAgent } from 'agent';
+import { LoginValuesType } from 'agent/UserServiceAgent.types';
+import './styles.scss';
+
+const { Title } = Typography;
 
 const LoginForm: React.FC<WrappedFormInternalProps> = props => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    props.form.validateFields((err, values) => {
+    props.form.validateFields((err, values: LoginValuesType) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        UserServiceAgent.login(values)
+          .then(res => res.json())
+          .then(d => {
+            localStorage.setItem('accessToken', d.accessToken);
+            Router.push('/');
+          });
       }
     });
   };
@@ -24,12 +32,13 @@ const LoginForm: React.FC<WrappedFormInternalProps> = props => {
           Sign in to "Take Break"
         </Title>
         <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }]
+          {getFieldDecorator('email', {
+            rules: [{ required: true, message: 'Please input your Email!' }]
           })(
             <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="email"
+              placeholder="Email"
             />
           )}
         </Form.Item>
