@@ -1,14 +1,10 @@
 import agent from './agent';
+import { RegisterValuesType, LoginValuesType } from './UserServiceAgent.types';
 
-export interface IRegisterFormValue {
-  username: string;
-  email: string;
-  slug: string;
-  password: string;
-  bio: string | undefined;
-}
-
-const register = (values: IRegisterFormValue): Promise<Object> =>
+const register = (values: RegisterValuesType): Promise<Object> =>
   agent.post('/auth/register', { ...values });
 
-export default { register };
+const login = (values: LoginValuesType): Promise<Object> =>
+  agent.post('/auth/login', { ...values });
+
+export default { register, login };
