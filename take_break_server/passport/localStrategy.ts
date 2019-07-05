@@ -12,10 +12,10 @@ export default (passport: PassportStatic) => {
       },
       async (email: string, password: string, done: any) => {
         try {
-          const user = await User.findOne({ where: { email: email } });
+          const user = await User.findOne({ where: { email } });
 
           if (!user) {
-            return done(null, false, { message: 'Incorrect username.' });
+            return done(null, false, { message: 'Incorrect email.' });
           }
 
           if (!user.validatePassword(password)) {
