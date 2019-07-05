@@ -1,10 +1,8 @@
 import './styles.scss';
 
-import { Button, Form, Icon, Input, Radio, Select } from 'antd';
+import { Button, Form, Icon, Input, Radio } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import * as React from 'react';
-
-const { Option } = Select;
 
 // TODO: 상수 파일 분리, 엄격한 타이핑 적용
 // NOTE: server와 함께 사용할 수 있어, 통합 가능성 고려
@@ -30,10 +28,10 @@ class OrganizationregistrationForm extends React.Component<Props> {
     });
   };
 
-  renderNameTextInput = () => {
+  renderNameField = () => {
     const { getFieldDecorator } = this.props.form;
 
-    return getFieldDecorator('username', {
+    return getFieldDecorator('name', {
       rules: [{ required: true, message: '조직명을 입력해주세요.' }]
     })(
       <Input
@@ -43,7 +41,7 @@ class OrganizationregistrationForm extends React.Component<Props> {
     );
   };
 
-  renderDescriptionTextInput = () => {
+  renderDescriptionField = () => {
     const { getFieldDecorator } = this.props.form;
 
     return getFieldDecorator('description', {
@@ -56,37 +54,23 @@ class OrganizationregistrationForm extends React.Component<Props> {
     );
   };
 
-  renderLinkTextInput = () => {
+  renderLinkField = () => {
     const { getFieldDecorator } = this.props.form;
-
-    const addonBefore = (
-      <Select defaultValue="http://" style={{ width: 90 }}>
-        <Option value="http://">http://</Option>
-        <Option value="https://">https://</Option>
-      </Select>
-    );
 
     return getFieldDecorator('link', {
       rules: [
         {
-          pattern: /(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-          message: '올바른 URL을 입력해주세요.'
+          message: '올바른 URL을 입력해주세요.',
+          pattern: /(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
         }
       ]
-    })(<Input addonBefore={addonBefore} placeholder="takebreak.co" />);
+    })(<Input placeholder="https://takebreak.info" />);
   };
 
-  renderTypeRadioInput = () => {
+  renderTypeField = () => {
     const { getFieldDecorator } = this.props.form;
 
-    return getFieldDecorator('radio-button', {
-      rules: [
-        {
-          required: true,
-          message: '개인 또는 조직을 선택해주세요.'
-        }
-      ]
-    })(
+    return getFieldDecorator('type', {})(
       <Radio.Group>
         <Radio value={OrganizationType.Individual}>개인</Radio>
         <Radio value={OrganizationType.Company}>기업/단체</Radio>
@@ -94,7 +78,7 @@ class OrganizationregistrationForm extends React.Component<Props> {
     );
   };
 
-  renderSubmitButton = () => {
+  renderSubmitBtn = () => {
     return (
       <Button type="primary" htmlType="submit" className="login-form-button">
         등록하기
@@ -105,11 +89,11 @@ class OrganizationregistrationForm extends React.Component<Props> {
   render() {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>{this.renderNameTextInput()}</Form.Item>
-        <Form.Item>{this.renderDescriptionTextInput()}</Form.Item>
-        <Form.Item>{this.renderLinkTextInput()}</Form.Item>
-        <Form.Item>{this.renderTypeRadioInput()}</Form.Item>
-        <Form.Item>{this.renderSubmitButton()}</Form.Item>
+        <Form.Item>{this.renderNameField()}</Form.Item>
+        <Form.Item>{this.renderDescriptionField()}</Form.Item>
+        <Form.Item>{this.renderLinkField()}</Form.Item>
+        <Form.Item>{this.renderTypeField()}</Form.Item>
+        <Form.Item>{this.renderSubmitBtn()}</Form.Item>
       </Form>
     );
   }
