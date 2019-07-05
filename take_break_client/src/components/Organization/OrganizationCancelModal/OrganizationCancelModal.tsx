@@ -16,6 +16,7 @@ const OrganizationJoinCancelModal: React.FC<Props> = ({
     <Modal
       visible={visible}
       title="가입 취소"
+      onCancel={onCancel}
       footer={[
         <Button key="back" onClick={onCancel}>
           취소
