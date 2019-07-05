@@ -2,6 +2,7 @@ import * as React from 'react';
 import OrganizationRegistration from './OrganizationRegistration/OrganizationRegistration';
 import { ActionType } from '../../../pages/organizations';
 import Link from 'next/link';
+import OrganizationSearch from './OrganizationSearch/OrganizationSearch';
 
 interface IProps {
   action: ActionType;
@@ -11,6 +12,8 @@ const Organization: React.FunctionComponent<IProps> = props => {
   switch (props.action) {
     case 'registration':
       return <OrganizationRegistration />;
+    case 'search':
+      return <OrganizationSearch />;
     default:
       return (
         <div className="Organization">
