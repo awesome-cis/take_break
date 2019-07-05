@@ -10,9 +10,9 @@ interface IProps {
 
 const Organization: React.FunctionComponent<IProps> = props => {
   switch (props.action) {
-    case 'registration':
+    case ActionType.REGISTRATION:
       return <OrganizationRegistration />;
-    case 'search':
+    case ActionType.SEARCH:
       return <OrganizationSearch />;
     default:
       return (

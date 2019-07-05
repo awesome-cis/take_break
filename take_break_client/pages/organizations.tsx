@@ -2,7 +2,10 @@ import { NextFunctionComponent } from 'next';
 import * as React from 'react';
 import Organization from 'components/Organization';
 
-export type ActionType = 'registration' | 'search';
+export enum ActionType {
+  REGISTRATION = 'registration',
+  SEARCH = 'search'
+}
 
 export type PageParamsType = {
   action: ActionType;
