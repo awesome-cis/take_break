@@ -61,7 +61,7 @@ class OrganizationregistrationForm extends React.Component<Props> {
       rules: [
         {
           message: '올바른 URL을 입력해주세요.',
-          pattern: /(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+          type: 'url'
         }
       ]
     })(<Input placeholder="https://takebreak.info" />);
