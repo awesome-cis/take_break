@@ -3,6 +3,8 @@ import './init';
 import * as Express from 'express';
 import * as next from 'next';
 
+import { PageParamsType as OrganizationPageParamsType } from '../pages/organizations';
+
 const port: number = parseInt(process.env.PORT || '3000', 10);
 const dev: boolean = process.env.NODE_ENV !== 'production';
 const app: next.Server = next({ dev });
@@ -12,6 +14,13 @@ app
   .prepare()
   .then(() => {
     const server: Express.Application = Express();
+
+    server.get('/organizations/:action', (req, res) => {
+      const actualPage = '/organizations';
+      const queryParams: OrganizationPageParamsType = { action: req.params.action };
+
+      app.render(req, res, actualPage, queryParams);
+    });
 
     server.get('*', (req: Express.Request, res: Express.Response) => {
       return handle(req, res);
