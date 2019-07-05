@@ -3,13 +3,13 @@ import Router from 'next/router';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { UserServiceAgent } from 'agent';
-import { IRegisterFormValue } from 'agent/UserServiceAgent';
+import { RegisterValuesType } from 'agent/UserServiceAgent.types';
 
 class RegistrationForm extends React.Component<FormComponentProps> {
   handleSubmit = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll(
-      (err, values: IRegisterFormValue) => {
+      (err, values: RegisterValuesType) => {
         if (!err) {
           UserServiceAgent.register(values).then(() => {
             Router.push('/login');
